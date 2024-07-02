@@ -6,6 +6,7 @@ import { State } from './types';
 import { FIRST_PAGE_NUMBER, PAGE_SIZE } from './constants';
 import { Book } from '../../services/types';
 import { Loader } from '../../components/Loader';
+import { ErrorButton } from '../../components/ErrorBoundary/ErrorButton';
 
 export class MainPage extends Component {
   state: State = {
@@ -71,10 +72,16 @@ export class MainPage extends Component {
 
   render() {
     return (
-      <main>
-        <Search onSearchClick={this.handleSearch} />
-        {this.state.isLoading ? <Loader /> : <SearchResult books={this.state.filteredBooks} />}
-      </main>
+      <>
+        <header className="header">
+          <h1 className="header-title">Book Catalog</h1>
+          <ErrorButton />
+        </header>
+        <main>
+          <Search onSearchClick={this.handleSearch} />
+          {this.state.isLoading ? <Loader /> : <SearchResult books={this.state.filteredBooks} />}
+        </main>
+      </>
     );
   }
 }

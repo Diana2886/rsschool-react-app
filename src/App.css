@@ -61,3 +61,29 @@
 .loader {
   text-align: center;
 }
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button-error {
+  border: 1px solid #d32f2f;
+  background-color: #d32f2f;
+}
+
+.button-error:hover {
+  border: 1px solid #c62828;
+  background-color: #c62828;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-title {
+  color: #1565c0;
+}
