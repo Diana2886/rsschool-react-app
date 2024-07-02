@@ -4,11 +4,15 @@ import '../../../App.css';
 
 export class Card extends Component<CardProps> {
   render() {
+    const { book } = this.props;
+    const publishedYear = book.publishedYear || '';
+    const numberOfPages = book.numberOfPages || '';
+
     return (
       <div className="card">
-        <h2 className="card-title">{this.props.book.title}</h2>
-        <p>Year of publication: {this.props.book.publishedYear}</p>
-        <p>Pages number: {this.props.book.numberOfPages}</p>
+        <h2 className="card-title">{book.title}</h2>
+        <p>Year of publication: {publishedYear}</p>
+        <p>Pages number: {numberOfPages}</p>
       </div>
     );
   }
