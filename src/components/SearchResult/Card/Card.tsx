@@ -6,8 +6,9 @@ export class Card extends Component<CardProps> {
   render() {
     return (
       <div className="card">
-        <h2>{this.props.book.title}</h2>
-        <p>Published at {this.props.book.publishedYear}</p>
+        <h2 className="card-title">{this.props.book.title}</h2>
+        <p>Year of publication: {this.props.book.publishedYear}</p>
+        <p>Pages number: {this.props.book.numberOfPages}</p>
       </div>
     );
   }
