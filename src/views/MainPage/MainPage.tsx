@@ -5,6 +5,7 @@ import { api } from '../../services/api';
 import { State } from './types';
 import { FIRST_PAGE_NUMBER, PAGE_SIZE } from './constants';
 import { Book } from '../../services/types';
+import { Loader } from '../../components/Loader';
 
 export class MainPage extends Component {
   state: State = {
@@ -12,9 +13,11 @@ export class MainPage extends Component {
     filteredBooks: [],
     pageNumber: FIRST_PAGE_NUMBER,
     searchTerm: '',
+    isLoading: false,
   };
 
   async getData() {
+    this.setState({ isLoading: true });
     try {
       const response = await api.fetchData(this.state.pageNumber, PAGE_SIZE);
       if (response.ok) {
@@ -28,6 +31,8 @@ export class MainPage extends Component {
       }
     } catch (error) {
       console.error('An error occurred while fetching data:', error);
+    } finally {
+      this.setState({ isLoading: false });
     }
   }
 
@@ -60,9 +65,7 @@ export class MainPage extends Component {
   }
 
   handleSearch = (searchTerm: string) => {
-    this.setState({
-      searchTerm,
-    });
+    this.setState({ searchTerm });
     this.getData();
   };
 
@@ -70,7 +73,7 @@ export class MainPage extends Component {
     return (
       <main>
         <Search onSearchClick={this.handleSearch} />
-        <SearchResult books={this.state.filteredBooks} />
+        {this.state.isLoading ? <Loader /> : <SearchResult books={this.state.filteredBooks} />}
       </main>
     );
   }

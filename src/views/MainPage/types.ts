@@ -5,4 +5,5 @@ export type State = {
   filteredBooks: Book[];
   pageNumber: number;
   searchTerm: string;
+  isLoading: boolean;
 };

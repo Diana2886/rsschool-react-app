@@ -37,6 +37,7 @@
 
 .searchResult {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -50,4 +51,13 @@
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 0 0.3rem #1976d277;
+}
+
+.card-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.loader {
+  text-align: center;
 }
