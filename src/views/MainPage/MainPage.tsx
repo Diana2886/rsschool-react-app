@@ -1,14 +1,12 @@
-import { Component } from 'react';
+import { FC } from 'react';
 import { Header } from './Header';
 import { Main } from './Main';
 
-export class MainPage extends Component {
-  render() {
-    return (
-      <>
-        <Header />
-        <Main />
-      </>
-    );
-  }
-}
+export const MainPage: FC = () => {
+  return (
+    <>
+      <Header />
+      <Main />
+    </>
+  );
+};

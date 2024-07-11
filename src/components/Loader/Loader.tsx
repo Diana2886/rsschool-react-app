@@ -1,7 +1,5 @@
-import { Component } from 'react';
+import { FC } from 'react';
 
-export class Loader extends Component {
-  render() {
-    return <h3 className="loader">Loading...</h3>;
-  }
-}
+export const Loader: FC = () => {
+  return <h3 className="loader">Loading...</h3>;
+};

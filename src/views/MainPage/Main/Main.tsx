@@ -1,80 +1,62 @@
-import { Component } from 'react';
-import { FIRST_PAGE_NUMBER, PAGE_SIZE } from './constants';
-import { State } from './types';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { FIRST_PAGE_NUMBER, LOCAL_STORAGE_KEY, PAGE_SIZE } from './constants';
 import { api } from '../../../services/api';
 import { Book } from '../../../services/types';
 import { Search } from '../../../components/Search';
 import { Loader } from '../../../components/Loader';
 import { SearchResult } from '../../../components/SearchResult';
+import { useSearchTerm } from '../../../hooks/useSearchTerm';
 
-export class Main extends Component {
-  state: State = {
-    books: [],
-    filteredBooks: [],
-    pageNumber: FIRST_PAGE_NUMBER,
-    searchTerm: '',
-    isLoading: false,
-  };
+export const Main: FC = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [pageNumber] = useState<number>(FIRST_PAGE_NUMBER);
+  const [searchTerm, setSearchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async getData() {
-    this.setState({ isLoading: true });
+  const filterBooks = useCallback((books: Book[], searchTerm: string) => {
+    if (!searchTerm) return books;
+    return books.filter((book) =>
+      book.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
+    );
+  }, []);
+
+  const getData = useCallback(async () => {
+    setIsLoading(true);
     try {
-      const response = await api.fetchData(this.state.pageNumber, PAGE_SIZE);
+      const response = await api.fetchData(pageNumber, PAGE_SIZE);
       if (response.ok) {
         const data = await response.json();
-        this.setState({
-          books: data.books,
-          filteredBooks: this.filterBooks(data.books, this.state.searchTerm),
-        });
+        setBooks(data.books);
+        setFilteredBooks(filterBooks(data.books, searchTerm));
       } else {
         throw new Error(`Error: ${response.status} - ${response.statusText}`);
       }
     } catch (error) {
       console.error('An error occurred while fetching data:', error);
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
-  }
+  }, [pageNumber, searchTerm, filterBooks]);
 
-  componentDidMount() {
-    const savedSearchTerm = localStorage.getItem('searchTerm');
-    if (savedSearchTerm) {
-      this.setState({
-        searchTerm: savedSearchTerm,
-      });
-    }
-    this.getData();
-  }
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
-  componentDidUpdate(_prevProps: Readonly<unknown>, prevState: Readonly<State>): void {
-    if (prevState.books !== this.state.books || prevState.searchTerm !== this.state.searchTerm) {
-      const filteredBooks = this.filterBooks(this.state.books, this.state.searchTerm);
-      if (filteredBooks !== this.state.filteredBooks) {
-        this.setState({
-          filteredBooks,
-        });
-      }
-    }
-  }
+  useEffect(() => {
+    const newFilteredBooks = filterBooks(books, searchTerm);
+    setFilteredBooks(newFilteredBooks);
+  }, [books, searchTerm, filterBooks]);
 
-  filterBooks(books: Book[], searchTerm: string) {
-    if (!searchTerm) return books;
-    return books.filter((book) =>
-      book.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
-    );
-  }
-
-  handleSearch = (searchTerm: string) => {
-    this.setState({ searchTerm });
-    this.getData();
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+    getData();
   };
 
-  render() {
-    return (
-      <main>
-        <Search onSearchClick={this.handleSearch} />
-        {this.state.isLoading ? <Loader /> : <SearchResult books={this.state.filteredBooks} />}
-      </main>
-    );
-  }
-}
+  return (
+    <main>
+      <Search onSearchClick={handleSearch} />
+      {isLoading ? <Loader /> : <SearchResult books={filteredBooks} />}
+    </main>
+  );
+};
