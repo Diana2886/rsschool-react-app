@@ -11,6 +11,10 @@ export interface ResourceList {
   books: Book[];
 }
 
+export interface BookData {
+  book: Book;
+}
+
 export interface Book {
   uid: string;
   title: string;
