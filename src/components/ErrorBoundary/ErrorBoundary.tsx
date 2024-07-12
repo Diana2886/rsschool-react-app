@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { ErrorBoundaryProps } from './types';
-import { ErrorPage } from './ErrorPage';
+import { ErrorPage } from '../../views/ErrorPage';
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps> {
   state = {
@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps> {
   render() {
     const { error } = this.state;
     if (error) {
-      return <ErrorPage error={error} />;
+      return <ErrorPage />;
     }
     return this.props.children;
   }
