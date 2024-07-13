@@ -22,4 +22,29 @@ export interface Book {
   numberOfPages: number;
   ebook: boolean;
   audiobook: boolean;
+  authors: Author[];
+  artists: Artist[];
+  editors: Editor[];
+  publishers: Publisher[];
+  characters: Character[];
+}
+
+export interface Author {
+  name: string;
+}
+
+export interface Artist {
+  name: string;
+}
+
+export interface Editor {
+  name: string;
+}
+
+export interface Publisher {
+  name: string;
+}
+
+export interface Character {
+  name: string;
 }

@@ -1,54 +1,57 @@
-import { FC, useEffect, useState } from 'react';
-import { api } from '../../services/api';
-import { Book, BookData } from '../../services/types';
-import { Loader } from '../Loader';
-import { BookDetailsProps } from './types';
+import { FC } from 'react';
+import { Book } from '../../services/types';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import './BookDetails.css';
+import { getEntriesString, hasEntries } from './utils';
 
-export const BookDetails: FC<BookDetailsProps> = ({ onClose }) => {
-  const query = new URLSearchParams(location.search);
-  const bookId = query.get('details');
-  const [book, setBook] = useState<Book | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export const BookDetails: FC = () => {
+  const {
+    title,
+    publishedYear,
+    numberOfPages,
+    ebook,
+    audiobook,
+    authors,
+    artists,
+    editors,
+    publishers,
+    characters,
+  } = useLoaderData() as Book;
 
-  useEffect(() => {
-    if (bookId) {
-      const fetchBookDetails = async () => {
-        setIsLoading(true);
-        try {
-          const response = await api.fetchBookDetails(bookId);
-          if (response.ok) {
-            const data: BookData = await response.json();
-            setBook(data.book);
-          } else {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
-          }
-        } catch (error) {
-          console.error('An error occurred while fetching book details:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+  const navigate = useNavigate();
 
-      fetchBookDetails();
-    }
-  }, [bookId]);
+  const entries = [
+    { label: 'Authors', data: authors, string: getEntriesString(authors) },
+    { label: 'Artists', data: artists, string: getEntriesString(artists) },
+    { label: 'Editors', data: editors, string: getEntriesString(editors) },
+    { label: 'Publishers', data: publishers, string: getEntriesString(publishers) },
+    { label: 'Characters', data: characters, string: getEntriesString(characters) },
+  ];
+
+  const handleClose = () => {
+    navigate(-1);
+  };
 
   return (
-    <div className="book-details">
-      <button onClick={onClose}>Close</button>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        book && (
-          <div>
-            <h2>{book.title}</h2>
-            <p>Year of publication: {book.publishedYear || ''}</p>
-            <p>Pages number: {book.numberOfPages || ''}</p>
-            <p>eBook: {book.ebook ? 'available' : 'not available'}</p>
-            <p>Audiobook: {book.audiobook ? 'available' : 'not available'}</p>
-          </div>
-        )
-      )}
+    <div className="book-details-container">
+      <button className="button button-close" onClick={handleClose}>
+        ✖
+      </button>
+      <div className="book-details">
+        <h2 className="book-details-title">{title}</h2>
+        {publishedYear && <p>Year of publication: {publishedYear}</p>}
+        {numberOfPages && <p>Number of pages: {numberOfPages}</p>}
+        <p>eBook: {ebook ? 'available' : 'not available'}</p>
+        <p>Audiobook: {audiobook ? 'available' : 'not available'}</p>
+        {entries.map(
+          ({ label, data, string }) =>
+            hasEntries(data) && (
+              <p key={label}>
+                {label}: {string}
+              </p>
+            )
+        )}
+      </div>
     </div>
   );
 };

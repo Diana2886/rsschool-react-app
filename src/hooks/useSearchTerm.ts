@@ -17,10 +17,13 @@ export const useSearchTerm = (
   }, [key]);
 
   useEffect(() => {
-    localStorage.setItem(key, searchTerm);
+    const setLocalStorage = () => {
+      localStorage.setItem(key, searchTerm);
+    };
+    setLocalStorage();
 
     return () => {
-      localStorage.setItem(key, searchTerm);
+      setLocalStorage();
     };
   }, [key, searchTerm]);
 

@@ -4,7 +4,7 @@ import './Pagination.css';
 
 export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
   const pages = [];
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 1; i <= totalPages / 15; i++) {
     pages.push(i);
   }
 
@@ -12,7 +12,7 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
     <div className="pagination">
       {pages.map((page) => (
         <button
-          className="button pagination-button"
+          className="button button-close"
           key={page - 1}
           onClick={() => onPageChange(page - 1)}
           disabled={page === currentPage + 1}
