@@ -2,7 +2,7 @@ export const api = {
   fetchData: async (pageNumber: number, pageSize: number) => {
     const url: URL = new URL('https://stapi.co/api/v2/rest/book/search');
     const params: { [key: string]: number } = {
-      pageNumber,
+      pageNumber: pageNumber - 1,
       pageSize,
     };
     Object.keys(params).forEach((key) => url.searchParams.append(key, `${params[key]}`));

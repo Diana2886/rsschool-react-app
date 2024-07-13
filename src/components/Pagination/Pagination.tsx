@@ -13,9 +13,9 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
       {pages.map((page) => (
         <button
           className="button button-close"
-          key={page - 1}
-          onClick={() => onPageChange(page - 1)}
-          disabled={page === currentPage + 1}
+          key={page}
+          onClick={() => onPageChange(page)}
+          disabled={page === currentPage}
         >
           {page}
         </button>
