@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "prepare": "husky",
     "format:fix": "prettier . --write",
-    "test": "vitest run",
+    "test": "vitest",
+    "test:run": "vitest run",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
