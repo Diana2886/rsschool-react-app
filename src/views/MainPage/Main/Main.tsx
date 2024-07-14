@@ -6,7 +6,7 @@ import { SearchResult } from '../../../components/SearchResult';
 import { useSearchTerm } from '../../../hooks/useSearchTerm';
 import { Outlet, useNavigate, useNavigation, useParams, useSearchParams } from 'react-router-dom';
 import { Pagination } from '../../../components/Pagination';
-import './Main.css';
+import './Main.scss';
 import { useBooksData } from '../../../hooks/useBooksData';
 
 export const Main: FC = () => {
