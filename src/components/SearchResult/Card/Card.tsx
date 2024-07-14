@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { CardProps } from './types';
-import '../../../App.css';
+import './Card.scss';
 
 export const Card: FC<CardProps> = ({ book }) => {
   const publishedYear = book.publishedYear || '';

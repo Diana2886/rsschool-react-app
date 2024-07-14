@@ -1,6 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 import { SearchProps } from './types';
 import { useSearchTerm } from '../../hooks/useSearchTerm';
+import './Search.scss';
 
 export const Search: FC<SearchProps> = ({ onSearchClick }) => {
   const [searchTerm, setSearchTerm] = useSearchTerm('searchTerm');

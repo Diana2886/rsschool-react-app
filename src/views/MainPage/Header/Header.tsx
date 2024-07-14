@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { ErrorButton } from '../../../components/ErrorBoundary/ErrorButton';
+import './Header.scss';
 
 export const Header: FC = () => {
   return (
