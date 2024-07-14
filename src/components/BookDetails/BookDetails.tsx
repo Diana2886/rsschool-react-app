@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Book } from '../../services/types';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import './BookDetails.css';
+import './BookDetails.scss';
 import { getEntriesString, hasEntries } from './utils';
 
 export const BookDetails: FC = () => {
@@ -34,7 +34,7 @@ export const BookDetails: FC = () => {
 
   return (
     <div className="book-details-container">
-      <button className="button button-close" onClick={handleClose}>
+      <button className="button button-close" data-testid="close-button" onClick={handleClose}>
         ✖
       </button>
       <div className="book-details">

@@ -72,7 +72,7 @@ describe('BookDetails Component', () => {
       expect(screen.getByText('Test Book 1')).toBeInTheDocument();
     });
 
-    const closeButton = screen.getByRole('button', { name: /✖/i });
+    const closeButton = await screen.findByTestId('close-button');
     userEvent.click(closeButton);
 
     await waitFor(() => {
