@@ -22,7 +22,6 @@ export const Main: FC = () => {
   useEffect(() => {
     const page = parseInt(searchParams.get('page') || `${FIRST_PAGE_NUMBER}`, 10);
     setPageNumber(page);
-    console.log('page', page);
     getData(page);
   }, [getData, searchParams]);
 

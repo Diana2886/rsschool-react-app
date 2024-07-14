@@ -7,7 +7,6 @@ import { FIRST_PAGE_NUMBER } from '../../views/MainPage/Main/constants';
 export const SearchResult: FC<SearchResultProps> = ({ books }) => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || `${FIRST_PAGE_NUMBER}`, 10);
-  console.log('searchParams', searchParams.get('page'));
 
   return (
     <section className="searchResult">
