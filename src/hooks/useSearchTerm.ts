@@ -1,20 +1,19 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 export const useSearchTerm = (
   key: string,
   initialValue: string = ''
 ): [string, Dispatch<SetStateAction<string>>] => {
+  const savedSearchTerm = localStorage.getItem(key);
   const [searchTerm, setSearchTerm] = useState(() => {
-    const savedSearchTerm = localStorage.getItem(key);
     return savedSearchTerm ? savedSearchTerm : initialValue;
   });
 
   useEffect(() => {
-    const savedSearchTerm = localStorage.getItem(key);
     if (savedSearchTerm) {
       setSearchTerm(savedSearchTerm);
     }
-  }, [key]);
+  }, [key, savedSearchTerm]);
 
   useEffect(() => {
     const setLocalStorage = () => {
@@ -27,5 +26,5 @@ export const useSearchTerm = (
     };
   }, [key, searchTerm]);
 
-  return [searchTerm, setSearchTerm];
+  return useMemo(() => [searchTerm, setSearchTerm], [searchTerm, setSearchTerm]);
 };

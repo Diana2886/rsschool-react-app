@@ -1,7 +1,9 @@
+import { URL_BOOK_SEARCH, URL_BOOK_DETAILS } from './constants';
+
 export const api = {
   fetchData: async (pageNumber: number, pageSize: number) => {
-    const url: URL = new URL('https://stapi.co/api/v2/rest/book/search');
-    const params: { [key: string]: number } = {
+    const url: URL = new URL(URL_BOOK_SEARCH);
+    const params: Record<string, number> = {
       pageNumber: pageNumber - 1,
       pageSize,
     };
@@ -9,7 +11,7 @@ export const api = {
     return await fetch(url);
   },
   fetchBookDetails: async (bookId: string) => {
-    const url: URL = new URL('https://stapi.co/api/v2/rest/book');
+    const url: URL = new URL(URL_BOOK_DETAILS);
     url.searchParams.append('uid', bookId);
     return await fetch(url);
   },

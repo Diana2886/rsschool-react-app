@@ -1,7 +1,5 @@
-import { FC, useCallback, useEffect, useState } from 'react';
-import { FIRST_PAGE_NUMBER, LOCAL_STORAGE_KEY, PAGE_SIZE } from './constants';
-import { api } from '../../../services/api';
-import { Book, ResourceList } from '../../../services/types';
+import { FC, useEffect, useState } from 'react';
+import { FIRST_PAGE_NUMBER, LOCAL_STORAGE_KEY } from './constants';
 import { Search } from '../../../components/Search';
 import { Loader } from '../../../components/Loader';
 import { SearchResult } from '../../../components/SearchResult';
@@ -9,47 +7,18 @@ import { useSearchTerm } from '../../../hooks/useSearchTerm';
 import { Outlet, useNavigate, useNavigation, useParams, useSearchParams } from 'react-router-dom';
 import { Pagination } from '../../../components/Pagination';
 import './Main.css';
+import { useBooksData } from '../../../hooks/useBooksData';
 
 export const Main: FC = () => {
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(FIRST_PAGE_NUMBER);
-  const [totalPages, setTotalPages] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { filteredBooks, totalPages, isLoading, getData } = useBooksData(searchTerm);
 
   const { state } = useNavigation();
   const { bookId } = useParams();
   const navigate = useNavigate();
-
-  const filterBooks = useCallback((books: Book[], searchTerm: string) => {
-    if (!searchTerm) return books;
-    return books.filter((book) =>
-      book.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
-    );
-  }, []);
-
-  const getData = useCallback(
-    async (page: number) => {
-      setIsLoading(true);
-      try {
-        const response = await api.fetchData(page, PAGE_SIZE);
-        if (response.ok) {
-          const data: ResourceList = await response.json();
-          setFilteredBooks(filterBooks(data.books, searchTerm));
-          setTotalPages(data.page.totalPages);
-        } else {
-          throw new Error(`Error: ${response.status} - ${response.statusText}`);
-        }
-      } catch (error) {
-        console.error('An error occurred while fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [filterBooks, searchTerm]
-  );
-
   const [searchParams] = useSearchParams();
+
   useEffect(() => {
     const page = parseInt(searchParams.get('page') || `${FIRST_PAGE_NUMBER}`, 10);
     setPageNumber(page);
@@ -61,7 +30,7 @@ export const Main: FC = () => {
     setSearchTerm(searchTerm);
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number | string) => {
     if (!bookId) {
       navigate(`?page=${page}`);
     }
@@ -83,8 +52,9 @@ export const Main: FC = () => {
           <div className="left-section" onClick={handleCloseDetails}>
             <SearchResult books={filteredBooks} />
             <Pagination
+              className="pagination-bar"
               currentPage={pageNumber}
-              totalPages={totalPages}
+              totalPageCount={totalPages}
               onPageChange={handlePageChange}
             />
           </div>

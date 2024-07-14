@@ -1,14 +1,16 @@
 export interface ResourceList {
-  page: {
-    pageNumber: number;
-    pageSize: number;
-    numberOfElements: number;
-    totalElements: number;
-    totalPages: number;
-    firstPage: boolean;
-    lastPage: boolean;
-  };
+  page: Page;
   books: Book[];
+}
+
+interface Page {
+  pageNumber: number;
+  pageSize: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
 }
 
 export interface BookData {

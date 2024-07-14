@@ -10,7 +10,7 @@ export const Card: FC<CardProps> = ({ book }) => {
     <div className="card">
       <h2 className="card-title">{book.title}</h2>
       <p>Year of publication: {publishedYear}</p>
-      <p>Pages number: {numberOfPages}</p>
+      <p>Number of pages: {numberOfPages}</p>
     </div>
   );
 };
