@@ -8,16 +8,19 @@ import { Outlet, useNavigate, useNavigation, useParams, useSearchParams } from '
 import { Pagination } from '../../../components/Pagination';
 import './Main.scss';
 import { useBooksData } from '../../../hooks/useBooksData';
+import { useCloseDetails } from '../../../hooks/useCloseDetails';
 
 export const Main: FC = () => {
   const [pageNumber, setPageNumber] = useState<number>(FIRST_PAGE_NUMBER);
   const [searchTerm, setSearchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
-  const { filteredBooks, totalPages, isLoading, getData } = useBooksData(searchTerm);
+  const { filteredBooks, totalElements, isLoading, getData } = useBooksData(searchTerm);
 
   const { state } = useNavigation();
   const { bookId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const { closeDetails } = useCloseDetails(pageNumber);
 
   useEffect(() => {
     const page = parseInt(searchParams.get('page') || `${FIRST_PAGE_NUMBER}`, 10);
@@ -35,9 +38,9 @@ export const Main: FC = () => {
     }
   };
 
-  const handleCloseDetails = () => {
-    if (bookId) {
-      navigate(-1);
+  const handleCloseDetails = (e: React.MouseEvent) => {
+    if (bookId && !(e.target as HTMLElement).closest('a')) {
+      closeDetails();
     }
   };
 
@@ -48,12 +51,12 @@ export const Main: FC = () => {
         <Loader />
       ) : (
         <div className="main-content">
-          <div className="left-section" onClick={handleCloseDetails}>
+          <div className="left-section" onClick={(e) => handleCloseDetails(e)}>
             <SearchResult books={filteredBooks} />
             <Pagination
               className="pagination-bar"
               currentPage={pageNumber}
-              totalPageCount={totalPages}
+              totalElements={totalElements}
               onPageChange={handlePageChange}
             />
           </div>

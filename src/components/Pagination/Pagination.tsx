@@ -6,12 +6,12 @@ import classnames from 'classnames';
 import './Pagination.scss';
 
 export const Pagination: FC<PaginationProps> = (props) => {
-  const { onPageChange, totalPageCount, currentPage, className } = props;
+  const { onPageChange, totalElements, currentPage, className } = props;
 
   const paginationRange = usePagination({
-    totalPageCount,
     siblingCount: SIBLING_COUNT,
     currentPage,
+    totalCount: totalElements,
   });
 
   if (currentPage === 0 || !paginationRange || paginationRange.length < 2) {

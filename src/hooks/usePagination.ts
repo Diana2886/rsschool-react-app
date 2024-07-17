@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { PAGE_SIZE } from '../views/MainPage/Main/constants';
 
 export const DOTS = '...';
 
@@ -8,11 +9,13 @@ const range = (start: number, end: number) => {
 };
 
 export const usePagination = ({
-  totalPageCount,
   siblingCount,
   currentPage,
+  totalCount,
 }: Record<string, number>) => {
   const paginationRange = useMemo(() => {
+    const totalPageCount = Math.ceil(totalCount / PAGE_SIZE);
+
     const totalPageNumbers = siblingCount + 5;
 
     if (totalPageNumbers >= totalPageCount) {
@@ -45,7 +48,7 @@ export const usePagination = ({
       const middleRange = range(leftSiblingIndex, rightSiblingIndex);
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
     }
-  }, [siblingCount, totalPageCount, currentPage]);
+  }, [totalCount, siblingCount, currentPage]);
 
   return paginationRange;
 };

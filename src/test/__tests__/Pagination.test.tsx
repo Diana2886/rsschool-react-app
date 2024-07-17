@@ -20,7 +20,7 @@ describe('Pagination Component', () => {
         <Pagination
           className="pagination-bar"
           currentPage={1}
-          totalPageCount={5}
+          totalElements={75}
           onPageChange={(page) => navigate(`?page=${page}`)}
         />
       </BrowserRouter>

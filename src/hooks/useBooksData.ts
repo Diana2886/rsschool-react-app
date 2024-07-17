@@ -2,22 +2,24 @@ import { useState, useCallback } from 'react';
 import { Book, ResourceList } from '../services/types';
 import { api } from '../services/api';
 import { PAGE_SIZE } from '../views/MainPage/Main/constants';
-import { getFilteredBooks } from '../views/MainPage/Main/utils';
 
 export const useBooksData = (searchTerm: string) => {
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalElements, setTotalElements] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getData = useCallback(
     async (page: number) => {
       setIsLoading(true);
       try {
-        const response = await api.fetchData(page, PAGE_SIZE);
+        const searchStr = searchTerm.trim().toLowerCase();
+        const response = !searchStr
+          ? await api.fetchBooks(page, PAGE_SIZE)
+          : await api.fetchSearchBooks(PAGE_SIZE, searchStr);
         if (response.ok) {
           const data: ResourceList = await response.json();
-          setFilteredBooks(getFilteredBooks(data.books, searchTerm));
-          setTotalPages(data.page.totalPages);
+          setFilteredBooks(data.books);
+          setTotalElements(data.page.totalElements);
         } else {
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
@@ -30,5 +32,5 @@ export const useBooksData = (searchTerm: string) => {
     [searchTerm]
   );
 
-  return { filteredBooks, totalPages, isLoading, getData };
+  return { filteredBooks, totalElements, isLoading, getData };
 };
