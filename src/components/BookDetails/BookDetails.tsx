@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { Book } from '../../services/types';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import './BookDetails.scss';
 import { getEntriesString, hasEntries } from './utils';
+import { usePage } from '../../hooks/usePage';
+import { useCloseDetails } from '../../hooks/useCloseDetails';
 
 export const BookDetails: FC = () => {
   const {
@@ -18,7 +20,8 @@ export const BookDetails: FC = () => {
     characters,
   } = useLoaderData() as Book;
 
-  const navigate = useNavigate();
+  const page = usePage();
+  const { closeDetails } = useCloseDetails(page);
 
   const entries = [
     { label: 'Authors', data: authors, string: getEntriesString(authors) },
@@ -29,7 +32,7 @@ export const BookDetails: FC = () => {
   ];
 
   const handleClose = () => {
-    navigate(-1);
+    closeDetails();
   };
 
   return (
