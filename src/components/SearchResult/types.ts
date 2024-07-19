@@ -1,5 +1,5 @@
 import { Book } from '../../services/bookApi/types';
 
-export interface SearchResultProps {
+export type SearchResultProps = {
   books: Book[];
-}
+};
