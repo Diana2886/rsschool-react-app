@@ -7,11 +7,13 @@ import { selectItem, unselectItem } from '../../../store/selectedItemsSlice';
 
 export const Card: FC<CardProps> = ({ book }) => {
   const dispatch = useDispatch();
-  const isSelected = useSelector((state: RootState) =>
-    state.selectedItems.selectedItems.some((item) => item.uid === book.uid)
-  );
+  const { selectedItems } = useSelector((state: RootState) => state.selectedItems);
 
-  const [, setForceUpdate] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    setIsSelected(selectedItems.some((item) => item.uid === book.uid));
+  }, [book.uid, selectedItems]);
 
   const handleCheckboxChange = () => {
     if (isSelected) {
@@ -23,10 +25,6 @@ export const Card: FC<CardProps> = ({ book }) => {
 
   const publishedYear = book.publishedYear || '';
   const numberOfPages = book.numberOfPages || '';
-
-  useEffect(() => {
-    setForceUpdate((prev) => !prev);
-  }, [isSelected]);
 
   return (
     <div className="card">
