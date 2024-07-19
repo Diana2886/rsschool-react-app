@@ -15,7 +15,7 @@ export const useBooksData = (searchTerm: string) => {
         const searchStr = searchTerm.trim().toLowerCase();
         const response = !searchStr
           ? await api.fetchBooks(page, PAGE_SIZE)
-          : await api.fetchSearchBooks(PAGE_SIZE, searchStr);
+          : await api.fetchSearchBooks(page, PAGE_SIZE, searchStr);
         if (response.ok) {
           const data: ResourceList = await response.json();
           setFilteredBooks(data.books);

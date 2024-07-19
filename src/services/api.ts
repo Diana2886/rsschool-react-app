@@ -1,18 +1,14 @@
 import { URL_BOOK_SEARCH, URL_BOOK_DETAILS } from './constants';
+import { setUrl } from './helpers';
 
 export const api = {
   fetchBooks: async (pageNumber: number, pageSize: number) => {
-    const url: URL = new URL(URL_BOOK_SEARCH);
-    const params: Record<string, number> = {
-      pageNumber: pageNumber - 1,
-      pageSize,
-    };
-    Object.keys(params).forEach((key) => url.searchParams.append(key, `${params[key]}`));
+    const url = setUrl(URL_BOOK_SEARCH, { pageNumber, pageSize });
     return await fetch(url);
   },
 
-  fetchSearchBooks: async (pageSize: number, searchTerm: string = '') => {
-    const url: URL = new URL(URL_BOOK_SEARCH);
+  fetchSearchBooks: async (pageNumber: number, pageSize: number, searchTerm: string = '') => {
+    const url = setUrl(URL_BOOK_SEARCH, { pageNumber, pageSize });
     const options = {
       method: 'POST',
       headers: {
@@ -21,16 +17,11 @@ export const api = {
       },
       body: `title=${encodeURIComponent(searchTerm)}`,
     };
-    const params: Record<string, number> = {
-      pageSize,
-    };
-    Object.keys(params).forEach((key) => url.searchParams.append(key, `${params[key]}`));
     return await fetch(url, options);
   },
 
   fetchBookDetails: async (bookId: string) => {
-    const url: URL = new URL(URL_BOOK_DETAILS);
-    url.searchParams.append('uid', bookId);
+    const url = setUrl(URL_BOOK_DETAILS, { bookId });
     return await fetch(url);
   },
 };

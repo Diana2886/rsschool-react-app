@@ -50,3 +50,9 @@ export interface Publisher {
 export interface Character {
   name: string;
 }
+
+export type Params = {
+  pageNumber?: number;
+  pageSize?: number;
+  bookId?: string;
+};
