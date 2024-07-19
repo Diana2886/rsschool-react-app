@@ -1,16 +1,17 @@
-import { api } from '../../services/api';
-import { BookData } from '../../services/types';
+import { bookApi } from '../../services/bookApi/bookApi';
+import { BookData } from '../../services/bookApi/types';
+import { store } from '../../store';
 import { CardDetailsLoader } from './types';
 
 export const bookDetailsLoader: CardDetailsLoader = async ({ params }) => {
   const { bookId } = params;
 
   try {
-    const response = await api.fetchBookDetails(bookId!);
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    const result = await store.dispatch(bookApi.endpoints.getBookDetails.initiate(bookId || ''));
+    if (result.error) {
+      throw new Error(`Error: ${result.error}`);
     }
-    const data: BookData = await response.json();
+    const data: BookData = result.data as BookData;
     return data.book;
   } catch (error) {
     console.error('An error occurred while fetching book details:', error);
