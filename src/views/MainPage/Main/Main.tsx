@@ -9,6 +9,7 @@ import { Pagination } from '../../../components/Pagination';
 import './Main.scss';
 import { useBooksData } from '../../../hooks/useBooksData';
 import { useCloseDetails } from '../../../hooks/useCloseDetails';
+import { Flyout } from '../../../components/Flyout/Flyout';
 
 export const Main: FC = () => {
   const [pageNumber, setPageNumber] = useState<number>(FIRST_PAGE_NUMBER);
@@ -60,6 +61,7 @@ export const Main: FC = () => {
               onPageChange={handlePageChange}
             />
           </div>
+          <Flyout />
           {(bookId || state === 'loading') && (
             <div className="right-section">{state === 'loading' ? <Loader /> : <Outlet />}</div>
           )}
