@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { CardProps } from './types';
 import './Card.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +7,11 @@ import { selectItem, unselectItem } from '../../../store/selectedItemsSlice';
 
 export const Card: FC<CardProps> = ({ book }) => {
   const dispatch = useDispatch();
-  const selectedItems = useSelector((state: RootState) => state.selectedItems.selectedItems);
-  const isSelected = selectedItems.some((item) => item.uid === book.uid);
+  const isSelected = useSelector((state: RootState) =>
+    state.selectedItems.selectedItems.some((item) => item.uid === book.uid)
+  );
+
+  const [, setForceUpdate] = useState(false);
 
   const handleCheckboxChange = () => {
     if (isSelected) {
@@ -20,6 +23,10 @@ export const Card: FC<CardProps> = ({ book }) => {
 
   const publishedYear = book.publishedYear || '';
   const numberOfPages = book.numberOfPages || '';
+
+  useEffect(() => {
+    setForceUpdate((prev) => !prev);
+  }, [isSelected]);
 
   return (
     <div className="card">
