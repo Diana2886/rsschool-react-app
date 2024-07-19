@@ -1,4 +1,4 @@
-import { useGetBooksQuery, useGetSearchBooksQuery } from '../services/bookApi/bookApi';
+import { useGetBooksQuery, useGetSearchBooksQuery } from '../services/bookApi';
 import { QueryParams } from '../services/bookApi/types';
 
 export const useBooksQuery = ({ pageSize, pageNumber, searchTerm }: QueryParams) => {

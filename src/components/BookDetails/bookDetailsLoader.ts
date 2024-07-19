@@ -1,4 +1,4 @@
-import { bookApi } from '../../services/bookApi/bookApi';
+import { bookApi } from '../../services/bookApi';
 import { BookData } from '../../services/bookApi/types';
 import { store } from '../../store';
 import { CardDetailsLoader } from './types';
