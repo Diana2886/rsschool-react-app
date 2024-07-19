@@ -1,5 +1,5 @@
 import { LoaderFunction } from 'react-router-dom';
-import { Artist, Author, Character, Editor, Publisher } from '../../services/types';
+import { Artist, Author, Character, Editor, Publisher } from '../../services/bookApi/types';
 
 interface BookDetailsLoaderParams {
   id: string;

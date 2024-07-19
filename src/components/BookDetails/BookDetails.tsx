@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Book } from '../../services/types';
+import { Book } from '../../services/bookApi/types';
 import { useLoaderData } from 'react-router-dom';
 import './BookDetails.scss';
-import { getEntriesString, hasEntries } from './utils';
+import { getEntriesString, hasEntries } from './helpers';
 import { usePage } from '../../hooks/usePage';
 import { useCloseDetails } from '../../hooks/useCloseDetails';
 

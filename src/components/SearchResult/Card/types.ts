@@ -1,4 +1,4 @@
-import { Book } from '../../../services/types';
+import { Book } from '../../../services/bookApi/types';
 
 export interface CardProps {
   book: Book;

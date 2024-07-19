@@ -1,4 +1,4 @@
-import { Book } from '../../services/types';
+import { Book } from '../../services/bookApi/types';
 
 export const generateSelectedItemsText = (count: number) => {
   return count === 1 ? '1 item is selected' : `${count} items are selected`;

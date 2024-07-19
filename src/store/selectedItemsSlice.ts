@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SelectedItemsState } from './types';
-import { Book } from '../services/types';
+import { Book } from '../services/bookApi/types';
 
 const initialState: SelectedItemsState = {
   selectedItems: [],

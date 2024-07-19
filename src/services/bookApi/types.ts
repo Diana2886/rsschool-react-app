@@ -51,8 +51,8 @@ export interface Character {
   name: string;
 }
 
-export type Params = {
-  pageNumber?: number;
-  pageSize?: number;
-  bookId?: string;
+export type QueryParams = {
+  pageNumber: number;
+  pageSize: number;
+  searchTerm?: string;
 };
