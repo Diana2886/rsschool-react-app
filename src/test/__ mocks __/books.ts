@@ -1,4 +1,6 @@
-export const books = [
+import { Book } from '../../services/bookApi/types';
+
+export const books: Book[] = [
   {
     uid: '1',
     title: 'Book 1',
