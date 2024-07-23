@@ -4,12 +4,16 @@ import { describe, expect, it } from 'vitest';
 import { CardProps } from '../../components/SearchResult/Card/types';
 import { Card } from '../../components/SearchResult/Card';
 import { book } from '../__ mocks __/book';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 const renderCard = ({ book }: CardProps) => {
   return render(
-    <BrowserRouter>
-      <Card book={book} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Card book={book} />
+      </BrowserRouter>
+    </Provider>
   );
 };
 
