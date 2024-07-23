@@ -97,7 +97,7 @@ describe('BookDetails Component', () => {
     });
   });
 
-  it.todo('should hide the component on clicking the close button', async () => {
+  it('should hide the component on clicking the close button', async () => {
     renderBookDetails();
 
     await waitFor(() => {
