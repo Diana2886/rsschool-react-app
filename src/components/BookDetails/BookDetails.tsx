@@ -36,7 +36,7 @@ export const BookDetails: FC = () => {
   };
 
   return (
-    <div className="book-details-container">
+    <div className="book-details-container" data-testid="details">
       <button className="button button-close" data-testid="close-button" onClick={handleClose}>
         ✖
       </button>

@@ -2,8 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { MainPage } from '../views/MainPage';
 import { ROUTERS } from './constants';
 import { ErrorPage } from '../views/ErrorPage';
-import { BookDetails } from '../components/BookDetails';
-import { bookDetailsLoader } from '../components/BookDetails/bookDetailsLoader';
+import { BookDetails, bookDetailsLoader } from '../components/BookDetails';
 
 export const router = createBrowserRouter([
   {

@@ -8,7 +8,7 @@ import { Outlet, useNavigate, useNavigation, useParams } from 'react-router-dom'
 import { Pagination } from '../../../components/Pagination';
 import './Main.scss';
 import { useCloseDetails } from '../../../hooks/useCloseDetails';
-import { Flyout } from '../../../components/Flyout/Flyout';
+import { Flyout } from '../../../components/Flyout';
 import { ErrorPage } from '../../ErrorPage';
 import { useBooksQuery } from '../../../hooks/useBookQuery';
 import { usePage } from '../../../hooks/usePage';
@@ -57,7 +57,7 @@ export const Main: FC = () => {
       {isLoading || isFetching ? (
         <Loader />
       ) : (
-        <div className="main-content">
+        <div className="main-content" data-testid={'main-content'}>
           <div className="left-section" onClick={(e) => handleCloseDetails(e)}>
             <SearchResult books={books} />
             <Pagination

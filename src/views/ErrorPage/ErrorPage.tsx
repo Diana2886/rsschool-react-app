@@ -9,7 +9,7 @@ export const ErrorPage: FC = () => {
     <div className="error-page">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
-      <p>{error.message}</p>
+      {error && <p>{error.message}</p>}
     </div>
   );
 };
