@@ -6,8 +6,8 @@
   flex-grow: 1;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0 0.3rem #1976d277;
-  background-color: var(--background-color);
+  box-shadow: 0 0 0.3rem var(--shadow-color);
+  background-color: var(--bg-color);
   color: var(--text-color);
 
   &-title {

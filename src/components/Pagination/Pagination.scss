@@ -35,12 +35,13 @@
       cursor: default;
     }
     &:hover {
-      background-color: #1976d20a;
+      background-color: var(--pagination-hover-bg-color);
       cursor: pointer;
     }
 
     &.selected {
-      background-color: #1976d214;
+      background-color: var(--pagination-bg-color);
+      cursor: default;
     }
     .arrow {
       &::before {
