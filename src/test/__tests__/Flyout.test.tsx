@@ -68,7 +68,7 @@ describe('Flyout', () => {
 
     const downloadLink = screen.getByText('Download').closest('a');
     expect(downloadLink).toHaveAttribute('href', 'blob:http://localhost/blobid');
-    expect(downloadLink).toHaveAttribute('download', '2_items.csv');
+    expect(downloadLink).toHaveAttribute('download', '2_books.csv');
   });
 
   it('should not render when there are no selected items', () => {

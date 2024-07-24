@@ -1,13 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import { CardProps } from './types';
 import './Card.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store';
 import { selectItem, unselectItem } from '../../../store/selectedItemsSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 export const Card: FC<CardProps> = ({ book }) => {
-  const dispatch = useDispatch();
-  const { selectedItems } = useSelector((state: RootState) => state.selectedItems);
+  const dispatch = useAppDispatch();
+  const { selectedItems } = useAppSelector((state) => state.selectedItems);
 
   const [isSelected, setIsSelected] = useState(false);
 

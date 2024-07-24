@@ -5,7 +5,7 @@ import { SearchResult } from '../../components/SearchResult';
 import { Book } from '../../services/bookApi/types';
 import { books } from '../__ mocks __/books';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
+import { store } from '../__ mocks __/store';
 
 vi.mock('../../services/bookApi', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../services/bookApi')>();

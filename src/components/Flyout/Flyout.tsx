@@ -1,17 +1,17 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { generateCSVBlobUrl, generateSelectedItemsText } from './helpers';
-import { RootState } from '../../store';
 import { unselectAllItems } from '../../store/selectedItemsSlice';
 import { useEffect, useState } from 'react';
 import './Flyout.scss';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { FILE_NAME } from './constants';
 
 export const Flyout = () => {
-  const dispatch = useDispatch();
-  const selectedItems = useSelector((state: RootState) => state.selectedItems.selectedItems);
+  const dispatch = useAppDispatch();
+  const selectedItems = useAppSelector((state) => state.selectedItems.selectedItems);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   const textContent = generateSelectedItemsText(selectedItems.length);
-  const fileName = `${selectedItems.length}_${selectedItems.length === 1 ? 'item' : 'items'}.csv`;
+  const fileName = `${selectedItems.length}_${selectedItems.length === 1 ? FILE_NAME : `${FILE_NAME}s`}.csv`;
 
   useEffect(() => {
     if (selectedItems.length > 0) {
