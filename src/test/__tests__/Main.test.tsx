@@ -1,15 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useGetBookDetailsQuery } from '../__ mocks __/bookApi';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { books } from '../__ mocks __/books';
 import { ROUTERS } from '../../routers/constants';
 import { MainPage } from '../../views/MainPage';
-import { BookDetails } from '../../components/BookDetails';
+import { BookDetails, bookDetailsLoader } from '../../components/BookDetails';
 import { store } from '../__ mocks __/store';
 import { MockThemeContextProvider } from '../__ mocks __/theme';
-import { bookDetailsLoader } from '../__ mocks __/bookDetailsLoader';
+import { bookDetailsSpy } from '../__ mocks __/api/handlers';
 
 const renderMain = () => {
   const router = createMemoryRouter(
@@ -37,19 +36,6 @@ const renderMain = () => {
     </Provider>
   );
 };
-
-vi.mock('../../services/bookApi', async () => {
-  const originalModule = await vi.importActual('../../services/bookApi');
-  return {
-    ...originalModule,
-    useGetBooksQuery: vi.fn(),
-    useGetBookDetailsQuery: vi.fn(),
-  };
-});
-
-vi.mock('../../components/BookDetails/bookDetailsLoader', () => ({
-  bookDetailsLoader: vi.fn(),
-}));
 
 const clickedCard = books[0];
 
@@ -84,7 +70,7 @@ describe('Card', () => {
 
   it('checks that clicking triggers an additional API call to fetch detailed information', async () => {
     await waitFor(() => {
-      expect(useGetBookDetailsQuery).toHaveBeenCalled();
+      expect(bookDetailsSpy).toHaveBeenCalled();
     });
   });
 });

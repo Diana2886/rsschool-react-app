@@ -5,7 +5,7 @@ import { CardProps } from '../../components/SearchResult/Card/types';
 import { Card } from '../../components/SearchResult/Card';
 import { book } from '../__ mocks __/book';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
+import { store } from '../__ mocks __/store';
 
 const renderCard = ({ book }: CardProps) => {
   return render(

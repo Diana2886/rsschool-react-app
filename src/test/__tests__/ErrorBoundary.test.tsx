@@ -6,6 +6,18 @@ vi.mock('../../views/ErrorPage', () => ({
   ErrorPage: () => <div>Mock ErrorPage</div>,
 }));
 
+const renderProblemChild = () => {
+  const ProblemChild = () => {
+    throw new Error('Test error');
+  };
+
+  render(
+    <ErrorBoundary>
+      <ProblemChild />
+    </ErrorBoundary>
+  );
+};
+
 describe('ErrorBoundary', () => {
   it('should render children when there is no error', () => {
     render(
@@ -18,15 +30,7 @@ describe('ErrorBoundary', () => {
   });
 
   it('should render ErrorPage when there is an error', () => {
-    const ProblemChild = () => {
-      throw new Error('Test error');
-    };
-
-    render(
-      <ErrorBoundary>
-        <ProblemChild />
-      </ErrorBoundary>
-    );
+    renderProblemChild();
 
     expect(screen.getByText('Mock ErrorPage')).toBeInTheDocument();
   });
@@ -34,15 +38,7 @@ describe('ErrorBoundary', () => {
   it('should log error to console', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-    const ProblemChild = () => {
-      throw new Error('Test error');
-    };
-
-    render(
-      <ErrorBoundary>
-        <ProblemChild />
-      </ErrorBoundary>
-    );
+    renderProblemChild();
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error), expect.any(Object));
 

@@ -2,54 +2,14 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { ROUTERS } from '../../routers/constants';
 import { BookDetails, bookDetailsLoader } from '../../components/BookDetails';
-import { useGetBookDetailsQuery, useGetBooksQuery } from '../../services/bookApi';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, Mock, vi } from 'vitest';
-import { book } from '../__ mocks __/book';
+import { describe, expect, it } from 'vitest';
 import { MainPage } from '../../views/MainPage';
 import { Provider } from 'react-redux';
 import { store } from '../__ mocks __/store';
-import { books } from '../__ mocks __/books';
 import { MockThemeContextProvider } from '../__ mocks __/theme';
-import { Loader } from '../../components/Loader';
 
-vi.mock('../../components/BookDetails/bookDetailsLoader', () => ({
-  bookDetailsLoader: vi.fn(),
-}));
-
-vi.mock('../../services/bookApi', async () => {
-  const originalModule = await vi.importActual('../../services/bookApi');
-  return {
-    ...originalModule,
-    useGetBooksQuery: vi.fn(),
-    useGetBookDetailsQuery: vi.fn(),
-  };
-});
-
-(useGetBooksQuery as Mock).mockReturnValue({
-  data: {
-    page: {
-      totalElements: books.length,
-    },
-    books,
-  },
-});
-
-const renderBookDetails = (isLoading = false) => {
-  (bookDetailsLoader as Mock).mockImplementation(() => {
-    const { data, isLoading, isFetching } = useGetBookDetailsQuery(books[0].uid);
-    if (isLoading || isFetching) {
-      return <Loader />;
-    }
-    return data?.book;
-  });
-
-  (useGetBookDetailsQuery as Mock).mockReturnValue({
-    data: isLoading ? undefined : { book },
-    isLoading,
-    isFetching: isLoading,
-  });
-
+const renderBookDetails = () => {
   const router = createMemoryRouter(
     [
       {
@@ -78,7 +38,7 @@ const renderBookDetails = (isLoading = false) => {
 
 describe('BookDetails Component', () => {
   it('should correctly display the detailed card data', async () => {
-    renderBookDetails(false);
+    renderBookDetails();
 
     await waitFor(() => {
       const detailsContainer = screen.getByTestId('details');
