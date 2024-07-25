@@ -35,14 +35,12 @@ export const Main: FC = () => {
   };
 
   const handlePageChange = (page: number | string) => {
-    if (!bookId) {
-      navigate(`?page=${page}`);
-    }
+    navigate(`?page=${page}`);
   };
 
   const handleCloseDetails = (e: React.MouseEvent) => {
     const htmlElement = e.target as HTMLElement;
-    if (bookId && !htmlElement.closest('a')) {
+    if (bookId && !htmlElement.closest('a') && !htmlElement.closest('li')) {
       closeDetails();
     }
   };
