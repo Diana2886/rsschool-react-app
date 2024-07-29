@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  &-title {
+    color: var(--primary-color);
+  }
+
+  &-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
