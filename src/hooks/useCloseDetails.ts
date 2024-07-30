@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export const useCloseDetails = (pageNumber: number) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const closeDetails = () => {
-    navigate(`/?page=${pageNumber}`);
+    router.push(`/?page=${pageNumber}`);
   };
 
   return { closeDetails };

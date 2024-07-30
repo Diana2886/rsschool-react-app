@@ -4,29 +4,34 @@ import { Search } from '../../../components/Search';
 import { Loader } from '../../../components/Loader';
 import { SearchResult } from '../../../components/SearchResult';
 import { useSearchTerm } from '../../../hooks/useSearchTerm';
-import { Outlet, useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { Pagination } from '../../../components/Pagination';
-import './Main.scss';
 import { useCloseDetails } from '../../../hooks/useCloseDetails';
 import { Flyout } from '../../../components/Flyout';
 import { ErrorPage } from '../../ErrorPage';
 import { useBooksQuery } from '../../../hooks/useBookQuery';
 import { usePage } from '../../../hooks/usePage';
+import styles from './Main.module.scss';
+import { useRouter } from 'next/router';
+// import dynamic from 'next/dynamic';
+
+// const BookDetailsPage = dynamic(() => import('../../../pages/details/[bookId]'), {
+//   loading: () => <Loader />,
+// });
 
 export const Main: FC = () => {
+  const router = useRouter();
   const pageNumber = usePage();
   const [searchTerm, setSearchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
+
   const { data, isLoading, isFetching, isError } = useBooksQuery({
     pageSize: PAGE_SIZE,
     pageNumber,
     searchTerm,
   });
+
   const books = data?.books || [];
   const totalElements = data?.page.totalElements || 0;
-
-  const { state } = useNavigation();
-  const { bookId } = useParams();
-  const navigate = useNavigate();
+  const { bookId } = router.query;
 
   const { closeDetails } = useCloseDetails(pageNumber);
 
@@ -35,7 +40,7 @@ export const Main: FC = () => {
   };
 
   const handlePageChange = (page: number | string) => {
-    navigate(`?page=${page}`);
+    router.push(`?page=${page}`);
   };
 
   const handleCloseDetails = (e: React.MouseEvent) => {
@@ -55,19 +60,19 @@ export const Main: FC = () => {
       {isLoading || isFetching ? (
         <Loader />
       ) : (
-        <div className="main-content" data-testid={'main-content'}>
-          <div className="left-section" onClick={(e) => handleCloseDetails(e)}>
+        <div className={styles['main-content']} data-testid={'main-content'}>
+          <div className={styles['left-section']} onClick={(e) => handleCloseDetails(e)}>
             <SearchResult books={books} />
             <Pagination
-              className="pagination-bar"
+              className={styles['pagination-bar']}
               currentPage={pageNumber}
               totalElements={totalElements}
               onPageChange={handlePageChange}
             />
           </div>
           <Flyout />
-          {(bookId || state === 'loading') && (
-            <div className="right-section">{state === 'loading' ? <Loader /> : <Outlet />}</div>
+          {bookId && (
+            <div className={styles['right-section']}>{/* <BookDetailsPage book={book} /> */}</div>
           )}
         </div>
       )}
