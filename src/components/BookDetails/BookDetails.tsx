@@ -1,12 +1,11 @@
 import { FC } from 'react';
-import { Book } from '../../services/bookApi/types';
-import { useLoaderData } from 'react-router-dom';
-import './BookDetails.scss';
+import styles from './BookDetails.module.scss';
 import { getEntriesString, hasEntries } from './helpers';
 import { usePage } from '../../hooks/usePage';
 import { useCloseDetails } from '../../hooks/useCloseDetails';
+import { BookDetailsProps } from './types';
 
-export const BookDetails: FC = () => {
+export const BookDetails: FC<BookDetailsProps> = ({ book }) => {
   const {
     title,
     publishedYear,
@@ -18,7 +17,7 @@ export const BookDetails: FC = () => {
     editors,
     publishers,
     characters,
-  } = useLoaderData() as Book;
+  } = book;
 
   const page = usePage();
   const { closeDetails } = useCloseDetails(page);
@@ -36,12 +35,12 @@ export const BookDetails: FC = () => {
   };
 
   return (
-    <div className="book-details-container" data-testid="details">
+    <div className={styles['book-details-container']} data-testid="details">
       <button className="button button-close" data-testid="close-button" onClick={handleClose}>
         ✖
       </button>
-      <div className="book-details">
-        <h2 className="book-details-title">{title}</h2>
+      <div className={styles['book-details']}>
+        <h2 className={styles['book-details-title']}>{title}</h2>
         {publishedYear && <p>Year of publication: {publishedYear}</p>}
         {numberOfPages && <p>Number of pages: {numberOfPages}</p>}
         <p>eBook: {ebook ? 'available' : 'not available'}</p>

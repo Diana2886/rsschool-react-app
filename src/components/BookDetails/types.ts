@@ -1,10 +1,7 @@
-import { LoaderFunction } from 'react-router-dom';
-import { Artist, Author, Character, Editor, Publisher } from '../../services/bookApi/types';
-
-interface BookDetailsLoaderParams {
-  id: string;
-}
-
-export type CardDetailsLoader = LoaderFunction<BookDetailsLoaderParams>;
+import { Artist, Author, Book, Character, Editor, Publisher } from '../../services/bookApi/types';
 
 export type Entries = Author[] | Artist[] | Editor[] | Publisher[] | Character[];
+
+export type BookDetailsProps = {
+  book: Book;
+};
