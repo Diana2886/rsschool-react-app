@@ -1,7 +1,7 @@
 import { generateCSVBlobUrl, generateSelectedItemsText } from './helpers';
 import { unselectAllItems } from '../../store/selectedItemsSlice';
 import { useEffect, useState } from 'react';
-import './Flyout.scss';
+import styles from './Flyout.module.scss';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { FILE_NAME } from './constants';
 
@@ -31,9 +31,9 @@ export const Flyout = () => {
   if (selectedItems.length === 0) return null;
 
   return (
-    <div className="flyout">
+    <div className={styles['flyout']}>
       <p>{textContent}</p>
-      <div className="flyout-buttons">
+      <div className={styles['flyout-buttons']}>
         <button onClick={handleUnselectAll}>Unselect all</button>
         {blobUrl && (
           <a href={blobUrl} download={fileName}>

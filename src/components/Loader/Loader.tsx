@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import './Loader.scss';
+import styles from './Loader.module.scss';
 
 export const Loader: FC = () => {
-  return <h2 className="loader">Loading...</h2>;
+  return <h2 className={styles['loader']}>Loading...</h2>;
 };

@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { CardProps } from './types';
-import './Card.scss';
+import styles from './Card.module.scss';
 import { selectItem, unselectItem } from '../../../store/selectedItemsSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
@@ -26,10 +26,10 @@ export const Card: FC<CardProps> = ({ book }) => {
   const numberOfPages = book.numberOfPages || '';
 
   return (
-    <div className="card">
-      <h2 className="card-title">{book.title}</h2>
-      <div className="card-content">
-        <div className="card-description">
+    <div className={styles['card']}>
+      <h2 className={styles['card-title']}>{book.title}</h2>
+      <div className={styles['card-content']}>
+        <div className={styles['card-description']}>
           <p>Year of publication: {publishedYear}</p>
           <p>Number of pages: {numberOfPages}</p>
         </div>

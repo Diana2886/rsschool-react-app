@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 import { SearchProps } from './types';
 import { useSearchTerm } from '../../hooks/useSearchTerm';
-import './Search.scss';
+import styles from './Search.module.scss';
 
 export const Search: FC<SearchProps> = ({ onSearchClick }) => {
   const [searchTerm, setSearchTerm] = useSearchTerm('searchTerm');
@@ -11,7 +11,7 @@ export const Search: FC<SearchProps> = ({ onSearchClick }) => {
   };
 
   return (
-    <section className="search">
+    <section className={styles['search']}>
       <input
         className="input"
         type="text"
