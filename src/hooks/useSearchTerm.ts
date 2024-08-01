@@ -14,9 +14,7 @@ export const useSearchTerm = (
 
   useEffect(() => {
     const setLocalStorage = () => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(key, searchTerm);
-      }
+      localStorage.setItem(key, searchTerm);
     };
 
     setLocalStorage();
