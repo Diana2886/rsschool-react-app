@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from 'react';
-import { LOCAL_STORAGE_KEY } from './constants';
+import { FIRST_PAGE_NUMBER, LOCAL_STORAGE_KEY } from './constants';
 import { SearchResult } from '../../../components/SearchResult';
 import { useSearchTerm } from '../../../hooks/useSearchTerm';
 import { Pagination } from '../../../components/Pagination';
@@ -9,14 +9,17 @@ import { usePage } from '../../../hooks/usePage';
 import styles from './Main.module.scss';
 import { useRouter } from 'next/router';
 import { MainProps } from './types';
+import { BookDetails } from '@/components/BookDetails';
+import { getUrlPath } from '@/utils/getUrlPath';
+import { Search } from '@/components/Search';
 
-export const Main: FC<MainProps> = ({ books, totalElements }) => {
+export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
   const router = useRouter();
   const pageNumber = usePage();
 
-  const [searchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
+  const [searchTerm, setSearchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
 
-  const { bookId } = router.query;
+  const { details } = router.query;
 
   const { closeDetails } = useCloseDetails(pageNumber);
 
@@ -26,38 +29,47 @@ export const Main: FC<MainProps> = ({ books, totalElements }) => {
     if (initialRender.current) {
       const { search } = router.query;
       if (!search && search !== searchTerm) {
-        router.push(`?page=${pageNumber}${searchTerm ? `&search=${searchTerm}` : ''}`);
+        router.push(getUrlPath(pageNumber, searchTerm, details as string));
       }
       initialRender.current = false;
     }
-  }, [pageNumber, router, searchTerm]);
+  }, [details, pageNumber, router, searchTerm]);
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+    console.log('searchTerm', searchTerm);
+    router.push(getUrlPath(FIRST_PAGE_NUMBER, searchTerm, details as string));
+  };
 
   const handlePageChange = (page: number | string) => {
-    router.push(`?page=${page}${searchTerm ? `&search=${searchTerm}` : ''}`);
+    router.push(getUrlPath(page, searchTerm, details as string));
   };
 
   const handleCloseDetails = (e: React.MouseEvent) => {
     const htmlElement = e.target as HTMLElement;
-    if (bookId && !htmlElement.closest('a') && !htmlElement.closest('li')) {
+    if (details && !htmlElement.closest('a') && !htmlElement.closest('li')) {
       closeDetails();
     }
   };
 
   return (
-    <>
-      <div className={styles['left-section']} onClick={(e) => handleCloseDetails(e)}>
-        <SearchResult books={books} />
-        <Pagination
-          className={styles['pagination-bar']}
-          currentPage={pageNumber}
-          totalElements={totalElements}
-          onPageChange={handlePageChange}
-        />
+    <main>
+      <Search onSearchClick={handleSearch} />
+      <div className={styles['main-content']} data-testid={'main-content'}>
+        <div className={styles['left-section']} onClick={(e) => handleCloseDetails(e)}>
+          <SearchResult books={books} />
+          <Pagination
+            className={styles['pagination-bar']}
+            currentPage={pageNumber}
+            totalElements={totalElements}
+            onPageChange={handlePageChange}
+          />
+        </div>
+        <Flyout />
+        {bookDetails && (
+          <div className={styles['right-section']}>{<BookDetails book={bookDetails} />}</div>
+        )}
       </div>
-      <Flyout />
-    </>
-    // {bookId && (
-    //   <div className={styles['right-section']}>{/* <BookDetailsPage book={book} /> */}</div>
-    // )}
+    </main>
   );
 };
