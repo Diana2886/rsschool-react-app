@@ -1,14 +1,12 @@
 import { FC } from 'react';
 import { SearchResultProps } from './types';
 import { Card } from './Card';
-import { FIRST_PAGE_NUMBER } from '../../views/MainPage/Main/constants';
 import styles from './SearchResult.module.scss';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { usePage } from '@/hooks/usePage';
 
 export const SearchResult: FC<SearchResultProps> = ({ books }) => {
-  const router = useRouter();
-  const page = parseInt((router.query.page as string) || `${FIRST_PAGE_NUMBER}`, 10);
+  const page = usePage();
 
   return (
     <section className={styles['searchResult']}>
