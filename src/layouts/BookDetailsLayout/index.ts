@@ -1,0 +1,1 @@
+export { BookDetailsLayout } from './BookDetailsLayout';
