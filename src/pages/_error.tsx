@@ -1,5 +1,3 @@
-'use client';
-
 import { NextPage, NextPageContext } from 'next';
 
 interface ErrorProps {
