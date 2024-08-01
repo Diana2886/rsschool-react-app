@@ -2,5 +2,9 @@ import { FC } from 'react';
 import styles from './Loader.module.scss';
 
 export const Loader: FC = () => {
-  return <h2 className={styles['loader']}>Loading...</h2>;
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.loader}></div>
+    </div>
+  );
 };
