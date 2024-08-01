@@ -1,2 +1,2 @@
 export { BookDetails } from './BookDetails';
-export { bookDetailsLoader } from './bookDetailsLoader';
+// export { bookDetailsLoader } from './bookDetailsLoader';
