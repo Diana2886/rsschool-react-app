@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
-import { Main } from '../views/MainPage/Main';
+import { Main } from '../components/Main';
 import { MainLayout } from '@/layouts/MainLayout';
 import { GetServerSideProps } from 'next';
-import { FIRST_PAGE_NUMBER } from '@/views/MainPage/Main/constants';
+import { FIRST_PAGE_NUMBER } from '@/components/Main/constants';
 import { getBooksData } from '@/services/getBooksData';
 import { Book } from '@/services/bookApi/types';
 import { getBookDetails } from '@/services/getBookDetails';
@@ -18,8 +18,7 @@ const MainPage = ({ books, totalElements, bookDetails }: MainPageProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { page, search } = context.query;
-  const { details } = context.query;
+  const { page, search, details } = context.query;
   const pageNumber = parseInt((page as string) || `${FIRST_PAGE_NUMBER}`, 10);
 
   try {
