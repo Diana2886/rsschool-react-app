@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ErrorButton } from '../../../components/ErrorBoundary/ErrorButton';
+import { ErrorButton } from '../ErrorBoundary/ErrorButton';
 import { HeaderProps } from './types';
 import styles from './Header.module.scss';
 

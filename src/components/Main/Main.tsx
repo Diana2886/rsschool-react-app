@@ -1,11 +1,11 @@
 import { FC, useEffect, useRef } from 'react';
 import { FIRST_PAGE_NUMBER, LOCAL_STORAGE_KEY } from './constants';
-import { SearchResult } from '../../../components/SearchResult';
-import { useSearchTerm } from '../../../hooks/useSearchTerm';
-import { Pagination } from '../../../components/Pagination';
-import { useCloseDetails } from '../../../hooks/useCloseDetails';
-import { Flyout } from '../../../components/Flyout';
-import { usePage } from '../../../hooks/usePage';
+import { SearchResult } from '../SearchResult';
+import { useSearchTerm } from '../../hooks/useSearchTerm';
+import { Pagination } from '../Pagination';
+import { useCloseDetails } from '../../hooks/useCloseDetails';
+import { Flyout } from '../Flyout';
+import { usePage } from '../../hooks/usePage';
 import styles from './Main.module.scss';
 import { useRouter } from 'next/router';
 import { MainProps } from './types';

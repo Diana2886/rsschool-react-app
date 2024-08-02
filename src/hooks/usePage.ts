@@ -1,4 +1,4 @@
-import { FIRST_PAGE_NUMBER } from '../views/MainPage/Main/constants';
+import { FIRST_PAGE_NUMBER } from '../components/Main/constants';
 import { useRouter } from 'next/router';
 
 export const usePage = () => {

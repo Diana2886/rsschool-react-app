@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { PAGE_SIZE } from '../views/MainPage/Main/constants';
+import { PAGE_SIZE } from '../components/Main/constants';
 
 export const DOTS = '...';
 
