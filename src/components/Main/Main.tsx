@@ -16,13 +16,9 @@ import { Search } from '@/components/Search';
 export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
   const router = useRouter();
   const pageNumber = usePage();
-
   const [searchTerm, setSearchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
-
   const { details } = router.query;
-
   const { closeDetails } = useCloseDetails(pageNumber);
-
   const initialRender = useRef(true);
 
   useEffect(() => {
