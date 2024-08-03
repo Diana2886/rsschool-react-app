@@ -3,7 +3,7 @@ export interface ResourceList {
   books: Book[];
 }
 
-interface Page {
+export interface Page {
   pageNumber: number;
   pageSize: number;
   numberOfElements: number;
