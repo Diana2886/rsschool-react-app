@@ -56,3 +56,9 @@ export type QueryParams = {
   pageSize: number;
   searchTerm?: string;
 };
+
+export type Params = {
+  pageNumber?: number;
+  pageSize?: number;
+  bookId?: string;
+};
