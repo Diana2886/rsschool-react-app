@@ -1,7 +1,7 @@
 import { store } from '@/store';
 import { ResourceList } from './bookApi/types';
 import { bookApi } from './bookApi';
-import { PAGE_SIZE } from '@/views/MainPage/Main/constants';
+import { PAGE_SIZE } from '@/components/Main/constants';
 
 export const getBooksData = async (
   pageNumber: number,
