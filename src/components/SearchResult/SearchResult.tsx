@@ -7,7 +7,7 @@ import { usePage } from '@/hooks/usePage';
 import { getUrlPath } from '@/utils/getUrlPath';
 import { useRouter } from 'next/router';
 
-export const SearchResult: FC<SearchResultProps> = ({ books }) => {
+export const SearchResult: FC<SearchResultProps> = ({ books = [] }) => {
   const page = usePage();
   const router = useRouter();
   const { search } = router.query;

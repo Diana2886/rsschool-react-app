@@ -37,7 +37,6 @@ export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
-    console.log('searchTerm', searchTerm);
     router.push(getUrlPath(FIRST_PAGE_NUMBER, searchTerm, details as string));
   };
 
