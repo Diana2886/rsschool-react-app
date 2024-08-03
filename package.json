@@ -8,7 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "preview": "vite preview",
     "prepare": "husky",
     "format:fix": "prettier . --write",
     "test": "vitest",
@@ -51,6 +50,7 @@
     "sass": "^1.77.8",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
+    "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.2"
   }
 }
