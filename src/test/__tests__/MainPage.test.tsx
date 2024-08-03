@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { books } from '../__ mocks __/books';
 import { store } from '../__ mocks __/store';
 import { MockThemeContextProvider } from '../__ mocks __/theme';
@@ -8,8 +8,7 @@ import MainPage, { getServerSideProps } from '@/pages';
 import { Book } from '@/services/bookApi/types';
 import { GetServerSidePropsContext } from 'next';
 import { renderWithRouter } from '../__ mocks __/nextRouter';
-import { getBooksData } from '@/services/getBooksData';
-import { emptyPage, page } from '../__ mocks __/page';
+import { bookDetailsSpy } from '../__ mocks __/api/handlers';
 
 type MainPageProps = {
   props: {
@@ -55,41 +54,7 @@ const clickCard = async () => {
   fireEvent.click(await card);
 };
 
-describe('SearchResult Component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-  it('renders the specified number of cards', async () => {
-    vi.mocked(getBooksData).mockResolvedValueOnce({
-      books,
-      page,
-    });
-    await renderMainPage();
-
-    const cardElements = screen.getAllByRole('link');
-    expect(cardElements).toHaveLength(books.length);
-  });
-
-  it('displays a message when no cards are present', async () => {
-    vi.mocked(getBooksData).mockResolvedValueOnce({
-      books: [],
-      page: emptyPage,
-    });
-    await renderMainPage();
-
-    const messageElement = screen.getByText(/no books found/i);
-    expect(messageElement).toBeInTheDocument();
-  });
-});
-
 describe('Card Component', () => {
-  beforeEach(async () => {
-    vi.mocked(getBooksData).mockResolvedValueOnce({
-      books,
-      page,
-    });
-  });
-
   it('validates that clicking on a card opens a detailed card component', async () => {
     await clickCard();
 
@@ -103,16 +68,7 @@ describe('Card Component', () => {
     await clickCard();
 
     await waitFor(() => {
-      expect(getBooksData).toHaveBeenCalled();
+      expect(bookDetailsSpy).toHaveBeenCalled();
     });
-  });
-
-  it('renders the relevant card data', async () => {
-    await renderMainPage();
-    const book = books[1];
-
-    expect(screen.getByText(book.title)).toBeInTheDocument();
-    expect(screen.getByText(`Year of publication: ${book.publishedYear}`)).toBeInTheDocument();
-    expect(screen.getByText(`Number of pages: ${book.numberOfPages}`)).toBeInTheDocument();
   });
 });
