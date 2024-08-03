@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useSearchTerm } from './useSearchTerm';
-import { LOCAL_STORAGE_KEY } from '@/views/MainPage/Main/constants';
+import { LOCAL_STORAGE_KEY } from '@/components/Main/constants';
 import { getUrlPath } from '@/utils/getUrlPath';
 
 export const useCloseDetails = (pageNumber: number) => {

@@ -5,12 +5,17 @@ import styles from './SearchResult.module.scss';
 import Link from 'next/link';
 import { usePage } from '@/hooks/usePage';
 import { getUrlPath } from '@/utils/getUrlPath';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
+// import { useRouter } from 'next/router';
 
-export const SearchResult: FC<SearchResultProps> = ({ books }) => {
+export const SearchResult: FC<SearchResultProps> = ({ books = [] }) => {
   const page = usePage();
-  const router = useRouter();
-  const { search } = router.query;
+  // const router = useRouter();
+  // const { search } = router.query;
+
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get('search');
 
   return (
     <section className={styles['searchResult']}>
