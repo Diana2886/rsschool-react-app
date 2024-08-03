@@ -1,25 +1,42 @@
-import { render, screen } from '@testing-library/react';
-import { RouterProvider } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { render, screen, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { router } from '../../routers/router';
-import { store } from '../__ mocks __/store';
+import { store } from '../../store';
+import App from '../../pages/_app';
+import { AppProps } from 'next/app';
+import { vi, describe, it, expect } from 'vitest';
+import { mockRouter } from '../__ mocks __/nextRouter';
 import { MockThemeContextProvider } from '../__ mocks __/theme';
 
-const renderApp = () => {
+vi.mock('../../hooks/usePageLoading', () => ({
+  usePageLoading: () => ({
+    isLoading: true,
+  }),
+}));
+
+const renderApp = (props: Partial<AppProps>) => {
+  const defaultProps: AppProps = {
+    Component: props.Component || (() => <div>Test Component</div>),
+    pageProps: props.pageProps || {},
+    router: mockRouter as AppProps['router'],
+  };
+
   return render(
     <Provider store={store}>
       <MockThemeContextProvider>
-        <RouterProvider router={router} />
+        <App {...defaultProps} />
       </MockThemeContextProvider>
     </Provider>
   );
 };
 
-describe('App component', () => {
-  it('renders the relevant card data', () => {
-    renderApp();
+describe('App Component', () => {
+  it('should display the Loader component while fetching data', async () => {
+    renderApp({ Component: () => <div>Test Component</div> });
 
-    expect(screen.getByText('Book Catalog')).toBeInTheDocument();
+    await act(async () => {
+      mockRouter.events?.on;
+    });
+
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
 });
