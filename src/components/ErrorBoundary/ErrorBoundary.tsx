@@ -1,17 +1,11 @@
 import { Component } from 'react';
-import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
+import { ErrorBoundaryProps } from './types';
 import { ErrorPage } from '../../views/ErrorPage';
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-
-    this.state = { error: null };
-  }
-
-  // state = {
-  //   error: null,
-  // };
+export class ErrorBoundary extends Component<ErrorBoundaryProps> {
+  state = {
+    error: null,
+  };
 
   static getDerivedStateFromError(error: Error) {
     return { error };
@@ -22,8 +16,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   render() {
-    if (this.state.error) {
-      return <ErrorPage />;
+    const { error } = this.state;
+    if (error) {
+      return <ErrorPage error={error} />;
     }
     return this.props.children;
   }
