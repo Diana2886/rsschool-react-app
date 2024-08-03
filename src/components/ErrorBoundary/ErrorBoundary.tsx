@@ -1,3 +1,5 @@
+'use client';
+
 import { Component } from 'react';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
 import { ErrorPage } from '../../views/ErrorPage';
