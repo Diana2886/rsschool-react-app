@@ -9,6 +9,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
     'plugin:@next/next/recommended',
+    'next/core-web-vitals',
   ],
   ignorePatterns: ['dist', 'node_modules', '.eslintrc.cjs', 'vite.config.ts', '.prettierrc.cjs'],
   parser: '@typescript-eslint/parser',
@@ -21,7 +22,6 @@ module.exports = {
     'react-compiler',
   ],
   rules: {
-    // 'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'comma-dangle': ['error', 'only-multiline'],
