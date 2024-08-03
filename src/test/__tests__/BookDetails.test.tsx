@@ -1,39 +1,20 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
-import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { ROUTERS } from '../../routers/constants';
-import { BookDetails, bookDetailsLoader } from '../../components/BookDetails';
+import { BookDetails } from '../../components/BookDetails';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
-import { MainPage } from '../../views/MainPage';
-import { Provider } from 'react-redux';
-import { store } from '../__ mocks __/store';
-import { MockThemeContextProvider } from '../__ mocks __/theme';
+import { describe, expect, it, vi } from 'vitest';
+import { book } from '../__ mocks __/book';
+
+const mockPush = vi.fn();
+
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    query: { page: '1', search: '', details: '1' },
+    push: mockPush,
+  }),
+}));
 
 const renderBookDetails = () => {
-  const router = createMemoryRouter(
-    [
-      {
-        path: ROUTERS.root,
-        element: <MainPage />,
-        children: [
-          {
-            path: ROUTERS.main.details,
-            element: <BookDetails />,
-            loader: bookDetailsLoader,
-          },
-        ],
-      },
-    ],
-    { initialEntries: [`/details/1`] }
-  );
-
-  return render(
-    <Provider store={store}>
-      <MockThemeContextProvider>
-        <RouterProvider router={router} />
-      </MockThemeContextProvider>
-    </Provider>
-  );
+  return render(<BookDetails book={book} />);
 };
 
 describe('BookDetails Component', () => {
@@ -68,7 +49,7 @@ describe('BookDetails Component', () => {
     userEvent.click(closeButton);
 
     await waitFor(() => {
-      expect(screen.queryByText('Test Book 1')).not.toBeInTheDocument();
+      expect(mockPush).toHaveBeenCalledWith('/?page=1');
     });
   });
 });
