@@ -5,7 +5,6 @@ export default function Document() {
     <Html>
       <Head>
         <link rel="shortcut icon" href="/static/book.ico" />
-        {/* <link rel="icon" type="image/png" sizes="16x16" href="/static/book.png" /> */}
       </Head>
       <body>
         <Main />
