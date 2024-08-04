@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, Suspense, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { FIRST_PAGE_NUMBER, LOCAL_STORAGE_KEY } from './constants';
 import { SearchResult } from '../SearchResult';
 import { useSearchTerm } from '../../hooks/useSearchTerm';
@@ -15,7 +15,6 @@ import { BookDetails } from '@/components/BookDetails';
 import { getUrlPath } from '@/utils/getUrlPath';
 import { Search } from '@/components/Search';
 import { useSearchParams } from 'next/navigation';
-import Loading from '@/app/loading';
 
 export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
   const router = useRouter();
@@ -35,6 +34,10 @@ export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
       initialRender.current = false;
     }
   }, [details, pageNumber, router, searchTerm, searchParams]);
+
+  // const { books, page } = booksData;
+  // const { totalElements } = page;
+  // const bookDetails = await bookDetailsPromise;
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -57,9 +60,7 @@ export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
       <Search onSearchClick={handleSearch} />
       <div className={styles['main-content']} data-testid={'main-content'}>
         <div className={styles['left-section']} onClick={(e) => handleCloseDetails(e)}>
-          <Suspense fallback={<Loading />}>
-            <SearchResult books={books} />
-          </Suspense>
+          <SearchResult books={books} />
           <Pagination
             className={styles['pagination-bar']}
             currentPage={pageNumber}
@@ -69,13 +70,7 @@ export const Main: FC<MainProps> = ({ books, totalElements, bookDetails }) => {
         </div>
         <Flyout />
         {bookDetails && (
-          <div className={styles['right-section']}>
-            {
-              <Suspense fallback={<Loading />}>
-                <BookDetails book={bookDetails} />
-              </Suspense>
-            }
-          </div>
+          <div className={styles['right-section']}>{<BookDetails book={bookDetails} />}</div>
         )}
       </div>
     </main>
