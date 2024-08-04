@@ -4,6 +4,10 @@ import { Main } from '@/components/Main';
 import { setUrl } from '@/services/bookApi/helpers';
 import { Metadata } from 'next';
 import { BookData, ResourceList } from '@/services/bookApi/types';
+import { Loader } from '@/components/Loader';
+import { Suspense } from 'react';
+import Await from './await';
+import { v4 as uuid } from 'uuid';
 
 export const metadata: Metadata = {
   title: 'Book catalog',
@@ -40,18 +44,26 @@ async function getBookDetails(bookId: string): Promise<BookData> {
   return data;
 }
 
-const MainPage = async ({ searchParams }: { searchParams: SearchParams }) => {
-  const pageNumber = parseInt((searchParams.page as string) || `${FIRST_PAGE_NUMBER}`, 10);
-  const searchTerm = (searchParams.search as string) || '';
-  const bookId = (searchParams.details as string) || '';
+const MainPage = ({ searchParams }: { searchParams: SearchParams }) => {
+  const pageNumber = Number(searchParams.page) || FIRST_PAGE_NUMBER;
+  const searchTerm = searchParams.search || '';
+  const bookId = searchParams.details || '';
 
-  const { books, page } = await getBooksData(pageNumber, searchTerm);
+  const booksDataPromise = getBooksData(pageNumber, searchTerm);
 
-  let bookData = null;
+  let bookDataPromise = null;
   if (bookId) {
-    bookData = await getBookDetails(bookId);
+    bookDataPromise = getBookDetails(bookId);
   }
-  return <Main books={books} totalElements={page.totalElements} bookDetails={bookData?.book} />;
+  return (
+    <Suspense key={uuid()} fallback={<Loader />}>
+      <Await promises={[booksDataPromise, bookDataPromise]}>
+        {({ books, page }, book) => (
+          <Main books={books} totalElements={page.totalElements} bookDetails={book?.book} />
+        )}
+      </Await>
+    </Suspense>
+  );
 };
 
 export default MainPage;
