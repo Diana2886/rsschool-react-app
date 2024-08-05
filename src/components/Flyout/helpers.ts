@@ -8,7 +8,7 @@ export const generateCSVBlobUrl = (items: Book[]) => {
   const csvContent = [
     ['Title', 'Published Year', 'Number Of Pages', 'Details URL'],
     ...items.map((item) => [
-      item.title,
+      `"${item.title}"`,
       item.publishedYear,
       item.numberOfPages,
       `https://stapi.co/api/v2/rest/book/${item.uid}`,
