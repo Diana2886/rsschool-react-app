@@ -1,14 +1,14 @@
-import { useRouter } from 'next/navigation';
-import { useSearchTerm } from './useSearchTerm';
-import { LOCAL_STORAGE_KEY } from '@/components/Main/constants';
-import { getUrlPath } from '@/utils/getUrlPath';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export const useCloseDetails = (pageNumber: number) => {
+export const useCloseDetails = () => {
   const router = useRouter();
-  const [searchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const closeDetails = () => {
-    router.push(`${getUrlPath(pageNumber, searchTerm)}`);
+    const params = new URLSearchParams(searchParams);
+    params.delete('details');
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return { closeDetails };
