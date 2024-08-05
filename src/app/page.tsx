@@ -8,6 +8,7 @@ import { Loader } from '@/components/Loader';
 import { Suspense } from 'react';
 import Await from './await';
 import { v4 as uuid } from 'uuid';
+import { Search } from '@/components/Search';
 
 export const metadata: Metadata = {
   title: 'Book catalog',
@@ -56,13 +57,16 @@ const MainPage = ({ searchParams }: { searchParams: SearchParams }) => {
     bookDataPromise = getBookDetails(bookId);
   }
   return (
-    <Suspense key={uuid()} fallback={<Loader />}>
-      <Await promises={[booksDataPromise, bookDataPromise]}>
-        {({ books, page }, book) => (
-          <Main books={books} totalElements={page.totalElements} bookDetails={book?.book} />
-        )}
-      </Await>
-    </Suspense>
+    <main>
+      <Search />
+      <Suspense key={uuid()} fallback={<Loader />}>
+        <Await promises={[booksDataPromise, bookDataPromise]}>
+          {({ books, page }, book) => (
+            <Main books={books} totalElements={page.totalElements} bookDetails={book?.book} />
+          )}
+        </Await>
+      </Suspense>
+    </main>
   );
 };
 
