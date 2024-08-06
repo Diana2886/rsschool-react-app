@@ -37,11 +37,9 @@ describe('ErrorBoundary', () => {
 
   it('should log error to console', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-
     renderProblemChild();
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error), expect.any(Object));
-
     consoleSpy.mockRestore();
   });
 });

@@ -1,42 +1,37 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Search } from '../../components/Search';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('../../hooks/useSearchTerm', () => ({
-  useSearchTerm: (key: string) => {
-    const searchTerm = localStorage.getItem(key) || '';
-    const setSearchTerm = (value: string) => {
-      localStorage.setItem(key, value);
-    };
-    return [searchTerm, setSearchTerm];
-  },
+const mockReplace = vi.fn();
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    query: { page: '1', search: '' },
+    replace: mockReplace,
+  }),
+  usePathname: vi.fn(() => '/'),
+  useSearchParams: () => new URLSearchParams('page=1'),
 }));
 
 describe('Search Component', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
-  it('should save the entered value to local storage when the Search button is clicked', () => {
-    const onSearchClick = vi.fn();
-    render(<Search onSearchClick={onSearchClick} />);
+  it('should update URL with search query when search button is clicked', () => {
+    render(<Search />);
 
     const inputElement = screen.getByRole('textbox');
-    const searchButton = screen.getByRole('button', { name: /search/i });
+    fireEvent.change(inputElement, { target: { value: 'test' } });
 
-    fireEvent.change(inputElement, { target: { value: 'test query' } });
-    fireEvent.click(searchButton);
+    const buttonElement = screen.getByRole('button', { name: /search/i });
+    fireEvent.click(buttonElement);
 
-    expect(localStorage.getItem('searchTerm')).toBe('test query');
+    expect(mockReplace).toHaveBeenCalledWith('/?page=1&search=test');
   });
 
-  it('should retrieve the value from local storage upon mounting', () => {
-    localStorage.setItem('searchTerm', 'saved query');
+  it('should remove search query from URL if input is empty and search button is clicked', () => {
+    render(<Search />);
 
-    const onSearchClick = vi.fn();
-    render(<Search onSearchClick={onSearchClick} />);
+    const buttonElement = screen.getByRole('button', { name: /search/i });
+    fireEvent.click(buttonElement);
 
-    const inputElement = screen.getByRole('textbox');
-    expect(inputElement).toHaveValue('saved query');
+    expect(mockReplace).toHaveBeenCalledWith('/?page=1');
   });
 });

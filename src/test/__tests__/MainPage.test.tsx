@@ -23,65 +23,27 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams('page=1&details=1'),
 }));
 
-// vi.mock('@/services/bookApi', () => ({
-//   bookApi: {
-//     getBooksData: vi.fn(),
-//     getBookDetails: vi.fn(),
-//   },
-// }));
-// vi.mock('@/services/bookApi', async (importOriginal) => {
-//   const actual = await importOriginal<typeof import('@/services/bookApi')>();
-//   return {
-//     ...actual,
-//     bookApi: vi.fn(),
-//     // getBooksData: vi.fn(),
-//     // getBookDetails: vi.fn(),
-//   };
-// });
-
 vi.mock('@/services/bookApi', () => ({
   bookApi: {
     getBooksData: vi.fn().mockImplementation(
       () =>
         new Promise((resolve) => {
-          // setTimeout(
-          //   () =>
           resolve({
             books,
             page,
           });
-          //   300
-          // );
         })
     ),
     getBookDetails: vi.fn().mockImplementation(
       () =>
         new Promise((resolve) => {
-          /* setTimeout(() =>  */ resolve({ book }) /* , 300) */;
+          resolve({ book });
         })
     ),
   },
 }));
 
 const renderMainPage = async () => {
-  //   const booksDataPromise: Promise<ResourceList> = new Promise((resolve) => {
-  //     resolve({
-  //       books,
-  //       page,
-  //     });
-  //   });
-
-  //   const bookDetailsPromise: Promise<BookData> = new Promise((resolve) => {
-  //     resolve({ book });
-  //   });
-
-  // const { getBooksData, getBookDetails } = bookApi;
-
-  // (getBooksData as Mock).mockReturnValue(booksDataPromise);
-  // (getBookDetails as Mock).mockReturnValue(bookDetailsPromise);
-
-  // vi.mocked(bookApi.getBooksData).mockReturnValue(booksDataPromise);
-  // vi.mocked(bookApi.getBookDetails).mockReturnValue(bookDetailsPromise);
   const awaitComponent = await Await({
     promises: [bookApi.getBooksData(1, ''), bookApi.getBookDetails('1')],
     children: (booksData: ResourceList, bookDetails: BookData | null) => (
@@ -96,16 +58,10 @@ const renderMainPage = async () => {
   return render(
     <Provider store={store}>
       <MockThemeContextProvider>
-        {/* <MainPage searchParams={{}} /> */}
         <main>
           <Search />
           <Suspense key={uuid()} fallback={<Loader />}>
             {awaitComponent}
-            {/* <Await promises={[booksDataPromise, bookDetailsPromise]}>
-              {({ books, page }, book) => (
-                <Main books={books} totalElements={page.totalElements} bookDetails={book?.book} />
-              )}
-            </Await> */}
           </Suspense>
         </main>
       </MockThemeContextProvider>

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { CardProps } from '../../components/SearchResult/Card/types';
 import { Card } from '../../components/SearchResult/Card';
@@ -10,9 +9,7 @@ import { store } from '../__ mocks __/store';
 const renderCard = ({ book }: CardProps) => {
   return render(
     <Provider store={store}>
-      <BrowserRouter>
-        <Card book={book} />
-      </BrowserRouter>
+      <Card book={book} />
     </Provider>
   );
 };

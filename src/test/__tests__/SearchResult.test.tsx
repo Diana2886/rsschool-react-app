@@ -1,26 +1,29 @@
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { SearchResult } from '../../components/SearchResult';
 import { Book } from '../../services/bookApi/types';
 import { books } from '../__ mocks __/books';
 import { Provider } from 'react-redux';
 import { store } from '../__ mocks __/store';
+import { MockThemeContextProvider } from '../__ mocks __/theme';
 
-vi.mock('../../services/bookApi', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../services/bookApi')>();
-  return {
-    ...actual,
-    useGetBookDetailsQuery: vi.fn(),
-  };
-});
+const mockPush = vi.fn();
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    query: { page: '1', search: '', details: '1' },
+    push: mockPush,
+  }),
+  usePathname: vi.fn(() => '/'),
+  useSearchParams: () => new URLSearchParams('page=1&details=1'),
+}));
 
 const renderSearchResult = (books: Book[]) => {
   return render(
     <Provider store={store}>
-      <BrowserRouter>
+      <MockThemeContextProvider>
         <SearchResult books={books} />
-      </BrowserRouter>
+      </MockThemeContextProvider>
     </Provider>
   );
 };
