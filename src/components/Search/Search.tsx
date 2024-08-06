@@ -1,24 +1,24 @@
-import { ChangeEvent, FC } from 'react';
-import { SearchProps } from './types';
-import { useSearchTerm } from '../../hooks/useSearchTerm';
+import { FC, useRef } from 'react';
 import styles from './Search.module.scss';
+import { useQueryParams } from '@/hooks/useQueryParams';
+import { useRouter } from 'next/router';
+import { getUrlPath } from '@/utils/getUrlPath';
+import { FIRST_PAGE_NUMBER } from '../Main/constants';
 
-export const Search: FC<SearchProps> = ({ onSearchClick }) => {
-  const [searchTerm, setSearchTerm] = useSearchTerm('searchTerm');
+export const Search: FC = () => {
+  const router = useRouter();
+  const { search, details } = useQueryParams();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const handleSearchClick = () => {
+    const inputValue = inputRef.current?.value || '';
+    router.push(getUrlPath(FIRST_PAGE_NUMBER, inputValue, details));
   };
 
   return (
     <section className={styles['search']}>
-      <input
-        className="input"
-        type="text"
-        value={searchTerm}
-        onChange={(e) => handleInputChange(e)}
-      />
-      <button className="button" onClick={() => onSearchClick(searchTerm)}>
+      <input ref={inputRef} className="input" type="text" defaultValue={search} />
+      <button className="button" onClick={handleSearchClick}>
         Search
       </button>
     </section>
