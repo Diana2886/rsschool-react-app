@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { Suspense } from 'react';
-import Loading from './loading';
+import { Loader } from '@/components/Loader';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ErrorBoundary>
             <ThemeProvider>
               <ThemeContent>
-                <Suspense fallback={<Loading />}>{children}</Suspense>
+                <Suspense fallback={<Loader />}>{children}</Suspense>
               </ThemeContent>
             </ThemeProvider>
           </ErrorBoundary>
@@ -32,7 +32,7 @@ function ThemeContent({ children }: { children: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className={`app ${theme}`}>
+    <div className={`app ${theme}`} data-testid="app">
       <Header toggleTheme={toggleTheme} />
       {children}
     </div>
