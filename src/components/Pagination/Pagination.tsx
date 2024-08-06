@@ -3,7 +3,6 @@ import { PaginationProps } from './types';
 import { SIBLING_COUNT } from './constants';
 import { DOTS, usePagination } from '../../hooks/usePagination';
 import classnames from 'classnames';
-// import './Pagination.scss';
 
 export const Pagination: FC<PaginationProps> = (props) => {
   const { onPageChange, totalElements, currentPage, className } = props;
