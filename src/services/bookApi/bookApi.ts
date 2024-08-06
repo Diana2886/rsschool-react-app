@@ -4,7 +4,7 @@ import { setUrl } from './helpers';
 import { BookData, ResourceList } from './types';
 
 export const bookApi = {
-  getBooksData: async (pageNumber: number, searchTerm: string): Promise<ResourceList> => {
+  fetchBooksData: async (pageNumber: number, searchTerm: string): Promise<ResourceList> => {
     const url = setUrl(`${BASE_URL}${SEARCH_URL}`, { pageNumber, pageSize: PAGE_SIZE });
     const options = {
       method: 'POST',
@@ -19,7 +19,7 @@ export const bookApi = {
     const data = await res.json();
     return data;
   },
-  getBookDetails: async (bookId: string): Promise<BookData> => {
+  fetchBookDetails: async (bookId: string): Promise<BookData> => {
     const url = setUrl(BASE_URL, { bookId });
 
     const res = await fetch(url.href, { cache: 'no-store' });

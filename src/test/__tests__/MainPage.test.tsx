@@ -25,7 +25,7 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/services/bookApi', () => ({
   bookApi: {
-    getBooksData: vi.fn().mockImplementation(
+    fetchBooksData: vi.fn().mockImplementation(
       () =>
         new Promise((resolve) => {
           resolve({
@@ -34,7 +34,7 @@ vi.mock('@/services/bookApi', () => ({
           });
         })
     ),
-    getBookDetails: vi.fn().mockImplementation(
+    fetchBookDetails: vi.fn().mockImplementation(
       () =>
         new Promise((resolve) => {
           resolve({ book });
@@ -45,7 +45,7 @@ vi.mock('@/services/bookApi', () => ({
 
 const renderMainPage = async () => {
   const awaitComponent = await Await({
-    promises: [bookApi.getBooksData(1, ''), bookApi.getBookDetails('1')],
+    promises: [bookApi.fetchBooksData(1, ''), bookApi.fetchBookDetails('1')],
     children: (booksData: ResourceList, bookDetails: BookData | null) => (
       <Main
         books={booksData.books}
@@ -91,7 +91,7 @@ describe('Card', () => {
 
   it('checks that clicking triggers an additional API call to fetch detailed information', async () => {
     await waitFor(() => {
-      expect(bookApi.getBookDetails).toHaveBeenCalled();
+      expect(bookApi.fetchBookDetails).toHaveBeenCalled();
     });
   });
 });

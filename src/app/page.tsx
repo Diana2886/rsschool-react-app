@@ -24,11 +24,11 @@ const MainPage = ({ searchParams }: { searchParams: SearchParams }) => {
   const searchTerm = searchParams.search || '';
   const bookId = searchParams.details || '';
 
-  const booksDataPromise = bookApi.getBooksData(pageNumber, searchTerm);
+  const booksDataPromise = bookApi.fetchBooksData(pageNumber, searchTerm);
 
   let bookDataPromise = null;
   if (bookId) {
-    bookDataPromise = bookApi.getBookDetails(bookId);
+    bookDataPromise = bookApi.fetchBookDetails(bookId);
   }
   return (
     <main>
