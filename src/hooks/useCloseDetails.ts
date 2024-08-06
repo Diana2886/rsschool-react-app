@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
-import { useSearchTerm } from './useSearchTerm';
-import { LOCAL_STORAGE_KEY } from '@/components/Main/constants';
 import { getUrlPath } from '@/utils/getUrlPath';
+import { useQueryParams } from './useQueryParams';
 
-export const useCloseDetails = (pageNumber: number) => {
+export const useCloseDetails = () => {
   const router = useRouter();
-  const [searchTerm] = useSearchTerm(LOCAL_STORAGE_KEY);
+  const { search, page } = useQueryParams();
 
   const closeDetails = () => {
-    router.push(`${getUrlPath(pageNumber, searchTerm)}`);
+    router.push(`${getUrlPath(page, search)}`);
   };
 
   return { closeDetails };

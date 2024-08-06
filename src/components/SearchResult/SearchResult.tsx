@@ -3,20 +3,17 @@ import { SearchResultProps } from './types';
 import { Card } from './Card';
 import styles from './SearchResult.module.scss';
 import Link from 'next/link';
-import { usePage } from '@/hooks/usePage';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { getUrlPath } from '@/utils/getUrlPath';
-import { useRouter } from 'next/router';
 
 export const SearchResult: FC<SearchResultProps> = ({ books = [] }) => {
-  const page = usePage();
-  const router = useRouter();
-  const { search } = router.query;
+  const { search, page } = useQueryParams();
 
   return (
     <section className={styles['searchResult']}>
       {books.length > 0 ? (
         books.map((book) => (
-          <Link href={getUrlPath(page, search as string, book.uid)} key={book.uid}>
+          <Link href={getUrlPath(page, search, book.uid)} key={book.uid}>
             <Card key={book.uid} book={book} />
           </Link>
         ))
