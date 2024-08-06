@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import styles from './BookDetails.module.scss';
 import { getEntriesString, hasEntries } from './helpers';
-import { usePage } from '../../hooks/usePage';
 import { useCloseDetails } from '../../hooks/useCloseDetails';
 import { BookDetailsProps } from './types';
 
@@ -19,8 +18,7 @@ export const BookDetails: FC<BookDetailsProps> = ({ book }) => {
     characters,
   } = book;
 
-  const page = usePage();
-  const { closeDetails } = useCloseDetails(page);
+  const { closeDetails } = useCloseDetails();
 
   const entries = [
     { label: 'Authors', data: authors, string: getEntriesString(authors) },
