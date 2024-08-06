@@ -1,39 +1,29 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, SEARCH_URL, SEARCH_HEADERS } from './constants';
-import { BookData, QueryParams, ResourceList } from './types';
+import { PAGE_SIZE } from '@/components/Main/constants';
+import { BASE_URL, SEARCH_URL } from './constants';
+import { setUrl } from './helpers';
+import { BookData, ResourceList } from './types';
 
-export const bookApi = createApi({
-  reducerPath: 'bookApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
-  endpoints: (builder) => ({
-    getBooks: builder.query<ResourceList, QueryParams>({
-      query: ({ pageNumber, pageSize }) => {
-        return {
-          url: SEARCH_URL,
-          params: { pageSize, pageNumber: pageNumber - 1 },
-        };
+export const bookApi = {
+  getBooksData: async (pageNumber: number, searchTerm: string): Promise<ResourceList> => {
+    const url = setUrl(`${BASE_URL}${SEARCH_URL}`, { pageNumber, pageSize: PAGE_SIZE });
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-    }),
-    getSearchBooks: builder.query<ResourceList, QueryParams>({
-      query: ({ pageNumber, pageSize, searchTerm }) => {
-        return {
-          url: SEARCH_URL,
-          method: 'POST',
-          params: {
-            pageSize: pageSize,
-            pageNumber: pageNumber - 1,
-          },
-          body: `title=${searchTerm}`,
-          headers: SEARCH_HEADERS,
-        };
-      },
-    }),
-    getBookDetails: builder.query<BookData, string>({
-      query: (uid) => `?uid=${uid}`,
-    }),
-  }),
-});
+      body: `title=${searchTerm}`,
+      cache: 'no-store' as RequestCache,
+    };
+    const res = await fetch(url.href, options);
+    const data = await res.json();
+    return data;
+  },
+  getBookDetails: async (bookId: string): Promise<BookData> => {
+    const url = setUrl(BASE_URL, { bookId });
 
-export const { useGetBooksQuery, useGetSearchBooksQuery, useGetBookDetailsQuery } = bookApi;
+    const res = await fetch(url.href, { cache: 'no-store' });
+    const data = await res.json();
+    return data;
+  },
+};

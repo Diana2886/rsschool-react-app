@@ -1,14 +1,12 @@
-import { BASE_URL, SEARCH_URL } from '@/services/bookApi/constants';
-import { FIRST_PAGE_NUMBER, PAGE_SIZE } from '@/components/Main/constants';
+import { FIRST_PAGE_NUMBER } from '@/components/Main/constants';
 import { Main } from '@/components/Main';
-import { setUrl } from '@/services/bookApi/helpers';
 import { Metadata } from 'next';
-import { BookData, ResourceList } from '@/services/bookApi/types';
 import { Loader } from '@/components/Loader';
 import { Suspense } from 'react';
 import Await from './await';
 import { v4 as uuid } from 'uuid';
 import { Search } from '@/components/Search';
+import { bookApi } from '@/services/bookApi';
 
 export const metadata: Metadata = {
   title: 'Book catalog',
@@ -21,40 +19,16 @@ type SearchParams = {
   details?: string;
 };
 
-async function getBooksData(pageNumber: number, searchTerm: string): Promise<ResourceList> {
-  const url = setUrl(`${BASE_URL}${SEARCH_URL}`, { pageNumber, pageSize: PAGE_SIZE });
-  const options = {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `title=${searchTerm}`,
-    cache: 'no-store' as RequestCache,
-  };
-  const res = await fetch(url.href, options);
-  const data = await res.json();
-  return data;
-}
-
-async function getBookDetails(bookId: string): Promise<BookData> {
-  const url = setUrl(BASE_URL, { bookId });
-
-  const res = await fetch(url.href, { cache: 'no-store' });
-  const data = await res.json();
-  return data;
-}
-
 const MainPage = ({ searchParams }: { searchParams: SearchParams }) => {
   const pageNumber = Number(searchParams.page) || FIRST_PAGE_NUMBER;
   const searchTerm = searchParams.search || '';
   const bookId = searchParams.details || '';
 
-  const booksDataPromise = getBooksData(pageNumber, searchTerm);
+  const booksDataPromise = bookApi.getBooksData(pageNumber, searchTerm);
 
   let bookDataPromise = null;
   if (bookId) {
-    bookDataPromise = getBookDetails(bookId);
+    bookDataPromise = bookApi.getBookDetails(bookId);
   }
   return (
     <main>

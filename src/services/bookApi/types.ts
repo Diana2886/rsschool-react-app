@@ -3,7 +3,7 @@ export interface ResourceList {
   books: Book[];
 }
 
-interface Page {
+export interface Page {
   pageNumber: number;
   pageSize: number;
   numberOfElements: number;
@@ -50,12 +50,6 @@ export interface Publisher {
 export interface Character {
   name: string;
 }
-
-export type QueryParams = {
-  pageNumber: number;
-  pageSize: number;
-  searchTerm?: string;
-};
 
 export type Params = {
   pageNumber?: number;

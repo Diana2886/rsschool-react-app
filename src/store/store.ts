@@ -1,17 +1,17 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { selectedItemsReducer } from './selectedItemsSlice';
-import { bookApi } from '../services/bookApi';
+// import { bookApi } from '../services/bookApi';
 
 const rootReducer = combineReducers({
   selectedItems: selectedItemsReducer,
-  [bookApi.reducerPath]: bookApi.reducer,
+  // [bookApi.reducerPath]: bookApi.reducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
     preloadedState,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(bookApi.middleware),
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(bookApi.middleware),
   });
 };
 
