@@ -1,0 +1,30 @@
+.state-data {
+  padding: 1rem;
+  max-width: 500px;
+  background-color: #ffffff;
+  animation: colorChange 2s ease forwards;
+}
+
+.picture {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes colorChange {
+  /* from {
+    background-color: ffffff;
+  }
+  to {
+    background-color: lightblue;
+  } */
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: #0077ff92;
+  }
+  100% {
+    background-color: white;
+  }
+}
