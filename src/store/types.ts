@@ -1,36 +1,32 @@
 export type FormState = {
-  uncontrolledFormData: StateValues;
-  hookFormData: StateValues;
+  controlledFormSubmissions: StateValues[];
+  uncontrolledFormSubmissions: StateValues[];
+  newSubmissionId: number | null;
   countries: string[];
-  recentlyEnteredData: RecentlyEnteredData | null;
 };
 
 export type FormValues = {
   name: string;
-  age: number;
   email: string;
   password: string;
   confirmPassword: string;
-  // gender: 'male' | 'female';
   gender: string;
   terms: boolean;
-  // picture: FileList;
-  // picture: string;
   country: string;
 };
 
 export type UncontrolledFormValues = FormValues & {
-  picture: File;
+  picture: File | undefined;
+  age: number | undefined;
 };
 
-export type HookFormValues = FormValues & {
+export type ControlledFormValues = FormValues & {
+  age: number;
   picture: FileList;
 };
 
-export type StateValues = /* Omit<FormValues, 'picture'> & */ FormValues & {
+export type StateValues = FormValues & {
+  id: number;
+  age: number | undefined;
   picture: string | null;
-};
-
-type RecentlyEnteredData = StateValues & {
-  formType: 'uncontrolled' | 'hook';
 };

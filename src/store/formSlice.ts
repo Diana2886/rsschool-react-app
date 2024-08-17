@@ -1,44 +1,45 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FormState, StateValues } from './types';
+import { COUNTRIES } from './constants';
 
 export const initialFormData: StateValues = {
+  id: Date.now(),
   name: '',
   age: 0,
   email: '',
   password: '',
   confirmPassword: '',
-  gender: 'male',
+  gender: '',
   terms: false,
   picture: null,
-  //   picture: new DataTransfer().files[0],
   country: '',
-  //   picture: new FileList(),
 };
 
 const initialState: FormState = {
-  uncontrolledFormData: initialFormData,
-  hookFormData: initialFormData,
-  countries: ['USA', 'Canada', 'UK', 'Australia'],
-  recentlyEnteredData: null,
+  controlledFormSubmissions: [],
+  uncontrolledFormSubmissions: [],
+  newSubmissionId: null,
+  countries: COUNTRIES,
 };
 
 export const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    addUncontrolledData(state, action: PayloadAction<StateValues>) {
-      state.uncontrolledFormData = action.payload;
-      state.recentlyEnteredData = { ...action.payload, formType: 'uncontrolled' };
+    addControlledSubmission(state, action: PayloadAction<StateValues>) {
+      state.controlledFormSubmissions.push(action.payload);
+      state.newSubmissionId = action.payload.id;
     },
-    addHookFormData(state, action: PayloadAction<StateValues>) {
-      state.hookFormData = action.payload;
-      state.recentlyEnteredData = { ...action.payload, formType: 'hook' };
+    addUncontrolledSubmission: (state, action: PayloadAction<StateValues>) => {
+      state.uncontrolledFormSubmissions.push(action.payload);
+      state.newSubmissionId = action.payload.id;
     },
-    setCountries(state, action: PayloadAction<string[]>) {
-      state.countries = action.payload;
+    clearNewSubmissionId: (state) => {
+      state.newSubmissionId = null;
     },
   },
 });
 
-export const { addUncontrolledData, addHookFormData, setCountries } = formSlice.actions;
+export const { addControlledSubmission, addUncontrolledSubmission, clearNewSubmissionId } =
+  formSlice.actions;
 export const formReducer = formSlice.reducer;
