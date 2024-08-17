@@ -6,7 +6,7 @@ export const validationSchema = yup.object({
     .string()
     .transform((value) => (value === '' ? undefined : value))
     .required('Name is required')
-    .matches(/^[A-Z].*$/, 'Name must start with an uppercase letter'),
+    .matches(/^\p{Lu}.*$/u, 'Name must start with an uppercase letter'),
   age: yup
     .number()
     .transform((value, originalValue) => {
