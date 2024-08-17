@@ -1,8 +1,12 @@
 .state-data {
   padding: 1rem;
   max-width: 500px;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 0.3rem #1565c088;
   background-color: #ffffff;
-  animation: colorChange 2s ease forwards;
+}
+.active {
+  animation: colorChange 2s ease-in-out;
 }
 
 .picture {
@@ -12,19 +16,13 @@
 }
 
 @keyframes colorChange {
-  /* from {
-    background-color: ffffff;
-  }
-  to {
-    background-color: lightblue;
-  } */
   0% {
-    background-color: white;
+    background-color: #ffffff;
   }
   50% {
-    background-color: #0077ff92;
+    background-color: #bbdefb;
   }
   100% {
-    background-color: white;
+    background-color: #ffffff;
   }
 }
