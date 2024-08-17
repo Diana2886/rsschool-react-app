@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { validateFileSize, validateFileType } from './helpers';
+import { validateFile, validateFileSize, validateFileType } from './helpers';
 
 export const validationSchema = yup.object({
   name: yup
@@ -41,17 +41,11 @@ export const validationSchema = yup.object({
         : value;
     })
     .required('Picture is required')
-    .test('fileType', 'Unsupported file format', (value: FileList | File | null) => {
-      if (!value) return false;
-
-      const file = value instanceof FileList ? value[0] : value;
-      return file instanceof File ? validateFileType(file) : false;
-    })
-    .test('fileSize', 'File size too large', (value: FileList | File | null) => {
-      if (!value) return false;
-
-      const file = value instanceof FileList ? value[0] : value;
-      return file instanceof File ? validateFileSize(file) : false;
-    }),
+    .test('fileType', 'Unsupported file format', (value: FileList | File | null) =>
+      validateFile(value, validateFileType)
+    )
+    .test('fileSize', 'File size too large', (value: FileList | File | null) =>
+      validateFile(value, validateFileSize)
+    ),
   country: yup.string().required('Country is required'),
 });
