@@ -1,7 +1,7 @@
 #root {
   display: flex;
   flex-direction: column;
-  max-width: 1280px;
+  max-width: 1380px;
   margin: 0 auto;
   padding: 0 1rem;
   width: 100%;
@@ -57,13 +57,13 @@ button {
   border: none;
   color: #ffffff;
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #43a047;
   width: 40%;
   font-size: 1rem;
 }
 :disabled {
   cursor: default;
-  opacity: 0.5;
+  background-color: #66bb6a;
 }
 
 .input-field {

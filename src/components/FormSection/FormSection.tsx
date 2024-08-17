@@ -14,13 +14,15 @@ export const FormSection: FC<FormSectionProps> = ({ formType, submissions, highl
       <Link to={`/${formType.toLowerCase()}-form`}>
         <h2>{formTypeTitle}</h2>
       </Link>
-      {submissions.length > 0 ? (
-        submissions.map((submission) => (
-          <FormsStateData key={submission.id} data={submission} highlightedId={highlightedId} />
-        ))
-      ) : (
-        <EmptyData formType={formType} />
-      )}
+      <div className="cards">
+        {submissions.length > 0 ? (
+          submissions.map((submission) => (
+            <FormsStateData key={submission.id} data={submission} highlightedId={highlightedId} />
+          ))
+        ) : (
+          <EmptyData formType={formType} />
+        )}
+      </div>
     </div>
   );
 };
