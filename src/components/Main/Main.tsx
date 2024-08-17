@@ -1,37 +1,44 @@
-import { Link } from 'react-router-dom';
 import { RootState } from '../../store';
-import { useAppSelector } from '../../store/hooks';
-import { StateFormData } from '../StateFormData';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useEffect, useState } from 'react';
+import { clearNewSubmissionId } from '../../store/formSlice';
+import { FormType } from './constants';
+import { FormSection } from '../FormSection';
+import './Main.css';
 
 export function Main() {
-  const { uncontrolledFormData, hookFormData, recentlyEnteredData } = useAppSelector(
-    (state: RootState) => state.form
-  );
-  const isRecentlyEnteredDataFromUncontrolledForm =
-    recentlyEnteredData?.formType === 'uncontrolled';
-  const isRecentlyEnteredDataFromHookForm = recentlyEnteredData?.formType === 'hook';
+  const dispatch = useAppDispatch();
+  const { controlledFormSubmissions, uncontrolledFormSubmissions, newSubmissionId } =
+    useAppSelector((state: RootState) => state.form);
+  const [highlightedId, setHighlightedId] = useState<number | null>(null);
 
-  console.log('uncontrolledFormData', uncontrolledFormData);
-  console.log('hookFormData', hookFormData);
+  useEffect(() => {
+    if (newSubmissionId) {
+      setHighlightedId(newSubmissionId);
+      const timer = setTimeout(() => {
+        setHighlightedId(null);
+        dispatch(clearNewSubmissionId());
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [newSubmissionId, dispatch]);
+
   return (
     <main>
       <h1>Main Page</h1>
-      {/* <div
-        style={{
-          border: isRecentlyEnteredDataFromUncontrolledForm ? '2px solid green' : 'none',
-        }}
-      > */}
-      <Link to="/uncontrolled-form">
-        <h2>Uncontrolled Form</h2>
-      </Link>
-      {isRecentlyEnteredDataFromUncontrolledForm && <StateFormData data={uncontrolledFormData} />}
-      {/* </div> */}
-      {/* <div style={{ border: isRecentlyEnteredDataFromHookForm ? '2px solid blue' : 'none' }}> */}
-      <Link to="/hook-form">
-        <h2>Hook Form</h2>
-      </Link>
-      {isRecentlyEnteredDataFromHookForm && <StateFormData data={hookFormData} />}
-      {/* </div> */}
+      <div className="main-content">
+        <FormSection
+          formType={FormType.CONTROLLED}
+          submissions={controlledFormSubmissions}
+          highlightedId={highlightedId}
+        />
+        <FormSection
+          formType={FormType.UNCONTROLLED}
+          submissions={uncontrolledFormSubmissions}
+          highlightedId={highlightedId}
+        />
+      </div>
     </main>
   );
 }
