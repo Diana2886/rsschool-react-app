@@ -7,8 +7,8 @@ export const Header: FC = () => {
     <header>
       <nav className="navbar">
         <Link to="/">Main</Link>
+        <Link to="/controlled-form">Controlled Form</Link>
         <Link to="/uncontrolled-form">Uncontrolled Form</Link>
-        <Link to="/hook-form">Hook Form</Link>
       </nav>
     </header>
   );
