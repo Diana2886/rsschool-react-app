@@ -1,0 +1,28 @@
+.state-data {
+  padding: 1rem;
+  max-width: 300px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.3rem #1565c088;
+  background-color: #ffffff;
+}
+.active {
+  animation: colorChange 2s ease-in-out;
+}
+
+.picture {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes colorChange {
+  0% {
+    background-color: #ffffff;
+  }
+  50% {
+    background-color: #bbdefb;
+  }
+  100% {
+    background-color: #ffffff;
+  }
+}
